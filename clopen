@@ -1,0 +1,2 @@
+#!/bin/bash
+python C:/Clopen/main.py "$@"

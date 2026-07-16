@@ -1,0 +1,2 @@
+class ClopenError(Exception):
+    pass

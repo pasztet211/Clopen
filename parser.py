@@ -1,0 +1,119 @@
+import shlex
+from errors import ClopenError
+from commands import read_block
+
+def parse(program):
+
+    instructions = []
+
+    i = 0
+
+    while i < len(program):
+
+        line = program[i].strip()
+        parts = shlex.split(line)
+
+        if parts[0] == "if":
+
+            branches = []
+
+            condition = parts[1]
+
+            block, i = read_block(program, i + 1)
+                
+            branches.append({
+                "condition": condition,
+                "block": parse(block)
+            })
+
+            else_block = None
+
+            # check what comes after the }
+            i += 1
+
+            while i < len(program):
+
+                next_line = program[i].strip()
+                next_parts = shlex.split(next_line)
+
+                if next_parts[0] == "elif":
+
+                    condition = next_parts[1]
+
+                    block, i = read_block(program, i + 1)
+
+                    branches.append({
+                        "condition": condition,
+                        "block": parse(block)
+                    })
+
+                    i += 1
+
+                elif next_parts[0] == "else":
+
+                    block, i = read_block(program, i + 1)
+
+                    else_block = parse(block)
+                    i += 1
+                    break
+
+                else:
+                    i -= 1
+                    break
+
+
+            instructions.append({
+                "type": "if",
+                "branches": branches,
+                "else": else_block
+            })
+        elif parts[0] == "while":
+
+            condition = parts[1]
+
+            block, i = read_block(program, i + 1)
+
+            instructions.append({
+                "type": "while",
+                "condition": condition,
+                "block": parse(block)
+            })
+        elif parts[0] == "for":
+
+            data = parts[1].split(";")
+
+            init = shlex.split(data[0].strip())
+            condition = data[1].strip()
+            update = ["update"] + shlex.split(data[2].strip())
+
+            block, i = read_block(program, i + 1)
+
+            instructions.append({
+                "type": "for",
+                "init": init,
+                "condition": condition,
+                "update": update,
+                "block": parse(block)
+            })
+        elif parts[0] == "fn":
+
+            name = parts[1]
+
+            inputs = parts[2].split(",")
+
+            block, i = read_block(program, i + 1)
+
+            instructions.append({
+                "type": "fn",
+                "name": name,
+                "inputs": [x.strip() for x in inputs if x.strip()],
+                "block": parse(block)
+            })
+        else:
+            instructions.append({
+                "type": "command",
+                "parts": parts
+            })
+        i += 1
+
+    return instructions
