@@ -1,0 +1,5 @@
+# edit files in C:\Clopen
+
+git add .
+git commit -m "describe changes"
+git push

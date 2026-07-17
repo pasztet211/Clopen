@@ -5,6 +5,8 @@ def run(program,definitions,additional_definitions=None,inputs=None):
     for instruction in program:
         if ("__return__" in additional_definitions if additional_definitions is not None else False):
             return
+        if "__HALTED__" in definitions:
+            return
 
         if instruction["type"] == "command":
 
@@ -78,6 +80,9 @@ def run(program,definitions,additional_definitions=None,inputs=None):
 
             elif command == "del":
                 cmd_del(parts, definitions, additional_definitions, inputs)
+            
+            elif command == "halt":
+                definitions["__HALTED__"] = "stapped"
 
 
         elif instruction["type"] == "if":
