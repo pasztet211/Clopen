@@ -1,11 +1,17 @@
 from commands import *
 
+in_loop = False
+shalted = False
+
 def run(program,definitions,additional_definitions=None,inputs=None):
+    global in_loop, shalted
 
     for instruction in program:
         if ("__return__" in additional_definitions if additional_definitions is not None else False):
             return
         if "__HALTED__" in definitions:
+            return
+        if shalted and in_loop:
             return
 
         if instruction["type"] == "command":
@@ -83,6 +89,11 @@ def run(program,definitions,additional_definitions=None,inputs=None):
             
             elif command == "halt":
                 definitions["__HALTED__"] = "stapped"
+            
+            elif command == "shalt":
+                if cmd_shalt(in_loop):
+                    shalted = True
+                    return
 
 
         elif instruction["type"] == "if":
@@ -122,12 +133,17 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                 additional_definitions,
                 inputs
             ):
+                in_loop = True
                 run(
                     instruction["block"],
                     definitions,
                     additional_definitions,
                     inputs
                 )
+                in_loop = False
+                if shalted:
+                    shalted = False
+                    break
 
 
         elif instruction["type"] == "for":
@@ -146,7 +162,7 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                 additional_definitions,
                 inputs
             ):
-
+                in_loop = True
                 run(
                     instruction["block"],
                     definitions,
@@ -160,6 +176,10 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     additional_definitions,
                     inputs
                 )
+                in_loop = False
+                if shalted:
+                    shalted = False
+                    break
 
         elif instruction["type"] == "fn":
 

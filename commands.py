@@ -300,3 +300,9 @@ def cmd_del(parts, definitions, additional_definitions=None, inputs=None):
         return
 
     raise ClopenError("Variable does not exist: " + name)
+
+def cmd_shalt(in_loop):
+    if in_loop:
+        return True
+    else:
+        raise ClopenError("Cannot shalt outside of a loop")
