@@ -1,4 +1,4 @@
-from errors import ClopenError
+from errors import *
 
 def update(parts,definitions,additional_definitions=None,inputs=None):
     name = parts[1]
@@ -18,7 +18,7 @@ def update(parts,definitions,additional_definitions=None,inputs=None):
         pass
 
     else:
-        raise ClopenError("Variable does not exist: " + name)
+        raise ClopenNameError("Variable does not exist: " + name)
     
     if inputs is not None and value in inputs:
         value = inputs[value][0]
@@ -86,7 +86,7 @@ def update(parts,definitions,additional_definitions=None,inputs=None):
             old_value, old_type = definitions[name]
 
         else:
-            raise ClopenError("Variable does not exist: " + name)
+            raise ClopenNameError("Variable does not exist: " + name)
         
         if old_type == "int":
             if additional_definitions is not None:
@@ -137,7 +137,7 @@ def update(parts,definitions,additional_definitions=None,inputs=None):
         elif name in definitions:
             old_value, old_type = definitions[name]
         else:
-            raise ClopenError("Variable does not exist: " + name)
+            raise ClopenNameError("Variable does not exist: " + name)
 
         if old_type == "int":
             if "." in str(value):
@@ -173,7 +173,7 @@ def update(parts,definitions,additional_definitions=None,inputs=None):
         elif name in definitions:
             old_value, old_type = definitions[name]
         else:
-            raise ClopenError("Variable does not exist: " + name)
+            raise ClopenNameError("Variable does not exist: " + name)
 
         if old_type == "int":
             if inputs is not None and name in inputs:

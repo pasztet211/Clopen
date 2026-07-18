@@ -24,20 +24,28 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
         else:
             print(definitions[name][0][index])
     else:
-        if inputs is not None and name in inputs:
-            print(inputs[name][0])
-
-        elif additional_definitions is not None and name in additional_definitions:
-            print(additional_definitions[name][0])
-
-        elif name in definitions:
-            print(definitions[name][0])
+        if name.startswith("\"") and name.endswith("\""):
+            print(name[1:-1])
+            return
         
+        elif name.startswith("$"):
+            get_value(name[1:], definitions, additional_definitions, inputs)
+            return
         else:
-            if name == "\\n":
-                print()
-                return
-            print(name)
+            if inputs is not None and name in inputs:
+                print(inputs[name][0])
+
+            elif additional_definitions is not None and name in additional_definitions:
+                print(additional_definitions[name][0])
+
+            elif name in definitions:
+                print(definitions[name][0])
+            
+            else:
+                if name == "\\n":
+                    print()
+                    return
+                print(name)
 
 def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
