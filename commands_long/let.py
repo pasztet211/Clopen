@@ -110,7 +110,7 @@ def is_valid_name(name):
     if name.startswith("$"):
         return False
 
-    if name.startswith("\"") and name.endswith("\""):
+    if name.startswith('"') and name.endswith('"'):
         return False
     
     return True
