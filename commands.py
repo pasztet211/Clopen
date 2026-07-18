@@ -29,7 +29,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
             return
         
         elif name.startswith("$"):
-            get_value(name[1:], definitions, additional_definitions, inputs)
+            get_var_from_definitions(name[1:], definitions, additional_definitions, inputs)
             return
         else:
             if inputs is not None and name in inputs:
@@ -314,3 +314,16 @@ def cmd_shalt(in_loop):
         return True
     else:
         raise ClopenRuntimeError("Cannot shalt outside of a loop")
+    
+def get_var_from_definitions(name, definitions, additional_definitions=None, inputs=None):
+    if inputs is not None and name in inputs:
+        return inputs[name][0]
+
+    elif additional_definitions is not None and name in additional_definitions:
+        return additional_definitions[name][0]
+
+    elif name in definitions:
+        return definitions[name][0]
+
+    else:
+        raise ClopenNameError("Variable does not exist: " + name)
