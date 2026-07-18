@@ -10,7 +10,13 @@ reserved = [
     "return",
     "update",
     "set",
-    "del"
+    "del",
+    "log",
+    "shalt",
+    "halt",
+    "get", 
+    "true",
+    "false"
 ]
 
 
