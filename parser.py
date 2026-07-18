@@ -1,5 +1,4 @@
 import shlex
-from errors import ClopenError
 from commands import read_block
 
 def parse(program):
