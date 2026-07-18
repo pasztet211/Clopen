@@ -10,8 +10,12 @@ def parse(program):
     while i < len(program):
 
         line = program[i].strip()
-        parts = shlex.split(line)
 
+        if line.startswith("log "):
+            parts = ["log", line[4:].strip()]
+        else:
+            parts = shlex.split(line)
+            
         if parts[0] == "if":
 
             branches = []
