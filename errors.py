@@ -1,2 +1,14 @@
-class ClopenError(Exception):
+class ClopenUnknownError(Exception):
+    pass
+
+class ClopenSyntaxError(Exception):
+    pass
+
+class ClopenNameError(Exception):
+    pass
+
+class ClopenValueError(Exception):
+    pass
+
+class ClopenRuntimeError(Exception):
     pass

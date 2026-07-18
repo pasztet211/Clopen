@@ -1,5 +1,5 @@
 from commands_long.let import let
-from errors import ClopenError
+from errors import *
 from commands_long.update import update
 
 def cmd_let(parts,definitions,additional_definitions=None,inputs=None):
@@ -15,7 +15,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
         name, index = name[:-1].split("[", 1)
 
         if name not in definitions or (additional_definitions is not None and name not in additional_definitions):
-            raise ClopenError("Variable does not exist: " + name)
+            raise ClopenNameError("Variable does not exist: " + name)
 
         index = int(index)
 
@@ -54,7 +54,7 @@ def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
         target = definitions
 
     else:
-        raise ClopenError("Variable does not exist: " + name)
+        raise ClopenNameError("Variable does not exist: " + name)
 
 
     if _type == "bool":
@@ -84,7 +84,7 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
         message = parts[2]
 
     if name not in definitions:
-        raise ClopenError("Variable does not exist: " + name)
+        raise ClopenNameError("Variable does not exist: " + name)
 
     if message != None:
         value = input(message)
@@ -105,7 +105,7 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
         elif value == "false":
             value = False
         else:
-            raise ClopenError("Invalid bool value")
+            raise ClopenValueError("Invalid bool value")
 
     definitions[name][0] = value
 
@@ -134,7 +134,7 @@ def eval_expr(expression, definitions, additional_definitions=None, inputs=None)
         return eval(expression, {"__builtins__": {}}, variables)
 
     except Exception:
-        raise ClopenError("Invalid expression: " + expression)
+        raise ClopenSyntaxError("Invalid expression: " + expression)
 
 def get_value(value,definitions, additional_definitions=None, inputs=None):
 
@@ -218,7 +218,7 @@ def eval_bool(expression, definitions, additional_definitions=None, inputs=None)
             elif op == "<":
                 return left < right
 
-    raise ClopenError("Invalid bool expression: " + expression)
+    raise ClopenSyntaxError("Invalid bool expression: " + expression)
 
 def parse_literal(value):
 
@@ -280,14 +280,14 @@ def read_block(program, i):
         block.append(program[i])
         i += 1
 
-    raise ClopenError("Missing closing brace")
+    raise ClopenSyntaxError("Missing closing brace")
 
 def cmd_del(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
 
     # inputs cannot be deleted
     if inputs is not None and name in inputs:
-        raise ClopenError("Cannot delete function input: " + name)
+        raise ClopenValueError("Cannot delete function input: " + name)
 
     # locals first
     if additional_definitions is not None and name in additional_definitions:
@@ -299,10 +299,10 @@ def cmd_del(parts, definitions, additional_definitions=None, inputs=None):
         del definitions[name]
         return
 
-    raise ClopenError("Variable does not exist: " + name)
+    raise ClopenNameError("Variable does not exist: " + name)
 
 def cmd_shalt(in_loop):
     if in_loop:
         return True
     else:
-        raise ClopenError("Cannot shalt outside of a loop")
+        raise ClopenRuntimeError("Cannot shalt outside of a loop")
