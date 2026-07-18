@@ -12,9 +12,9 @@ def parse(program):
         line = program[i].strip()
 
         if line.startswith("log "):
-            split_line(line)
+            parts = split_line(line)
         elif line.startswith("let "):
-            split_line(line)
+            parts = split_line(line)
         else:
             parts = shlex.split(line)
 
