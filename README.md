@@ -31,7 +31,6 @@ it is very simple by design
 ## Example code
 
 ```clo
-
 let var 0 int
 log var
 log "var"
