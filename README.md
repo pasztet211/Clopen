@@ -1,5 +1,5 @@
-![Python](https://img.shields.io/badge/Python-3.13.12-blue?style=flat)
-![Clopen](https://img.shields.io/badge/version-0.1.4-orange?style=flat)
+![Python](https://img.shields.io/badge/Python-3.13.12-blue?style=flat-square)
+![Clopen](https://img.shields.io/badge/version-0.1.4-orange?style=flat-square)
 
 # Clopen
 programming language
@@ -63,7 +63,7 @@ integer: [typed value]
 [typed value]
 ```
 
-## Variable types:   ![works](https://img.shields.io/badge/status-stable-green?style=flat)
+## Variable types:   ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
 | type  | value |
 |-------|-------|
@@ -83,20 +83,20 @@ integer: [typed value]
 - `shalt`
 - `del`
 
-## conditionals: ![works](https://img.shields.io/badge/status-stable-green?style=flat)
+## conditionals: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
 - `if` 
 - `elif`
 - `else`
 
-## loops: ![works](https://img.shields.io/badge/status-stable-green?style=flat)
+## loops: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
 - `while`
 - `for`
 
-## Miscellaneous: ![works](https://img.shields.io/badge/status-beta-yellow?style=flat)
+## Miscellaneous: ![works](https://img.shields.io/badge/status-beta-yellow?style=flat-square)
 
 - `with` module imports (supports `from` and `as`)
 
 # Made by:
-- [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange?style=flat)
+- [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange?style=flat-square)
