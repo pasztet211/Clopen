@@ -127,6 +127,7 @@ def split_line(line):
     parts = []
     current = ""
     in_quotes = False
+    encountered_escape = False
 
     for char in line:
         if char == '"':
@@ -136,7 +137,15 @@ def split_line(line):
             if current:
                 parts.append(current)
                 current = ""
+        elif char == "#" and not in_quotes:
+            break
+        elif char == "\\" and not in_quotes:
+            if not encountered_escape:
+                encountered_escape = True
+            else:
+                break
         else:
+            encountered_escape = False
             current += char
 
     if current:

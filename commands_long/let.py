@@ -21,10 +21,12 @@ reserved = [
 
 
 def let(parts, definitions, additional_definitions=None, inputs=None):
-
-    name = parts[1]
-    value = parts[2]
-    _type = parts[3].rstrip(";")
+    try:
+        name = parts[1]
+        value = parts[2]
+        _type = parts[3].rstrip(";")
+    except IndexError:
+        raise ClopenSyntaxError("Invalid let statement: " + " ".join(parts))
 
     if not is_valid_name(name):
         raise ClopenNameError("Invalid variable name: " + name)
@@ -111,6 +113,9 @@ def is_valid_name(name):
         return False
 
     if name.startswith('"') and name.endswith('"'):
+        return False
+
+    if "#" in name or "\\\\" in name:
         return False
     
     return True
