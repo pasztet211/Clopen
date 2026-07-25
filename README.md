@@ -10,12 +10,13 @@ it is very simple by design
 ## Features
 
 - // and # comments
-- creating and deleting variables with let and del
-- modifying variables using update and set
-- conditionals like if elif and else
-- loops like for and while
-- functions with fn + returning from said functions
-- printing and getting inputs using log and let
+- creating and deleting variables with `let` and `del`
+- modifying variables using `update` and `set`
+- conditionals like `if` `elif` and `else`
+- loops like `for` and `while`
+- functions with `fn` + returning from said functions
+- printing and getting inputs using `log` and `get`
+- importing other clopen files with `"with"` + `from` or `as`
 
 ## Installation
 
@@ -26,7 +27,11 @@ it is very simple by design
 ## File Extension and running
 
 1. extension: `.clo`
-2. to run use the `clopen filename.clo` bash command
+2. to run a file use 
+```bash 
+clopen filename.clo
+```
+in the folder containing the file
 
 ## Example code
 
@@ -66,6 +71,7 @@ integer: [typed value]
 - `set`
 - `halt`
 - `shalt`
+- `del`
 
 ## conditionals: ![works](https://img.shields.io/badge/status-stable-green)
 
@@ -80,7 +86,7 @@ integer: [typed value]
 
 ## Miscellaneous: ![works](https://img.shields.io/badge/status-beta-yellow)
 
-- `with`
+- `with` module imports (supports `from` and `as`)
 
 # Made by:
 - [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange)
