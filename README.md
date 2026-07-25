@@ -31,7 +31,6 @@ it is very simple by design
 ## Example code
 
 ```clo
-
 let var 0 int
 log var
 log "var"
@@ -70,14 +69,14 @@ integer: [typed value]
 
 ## conditionals:
 
-- if 
-- elif
-- else
+- `if`
+- `elif`
+- `else`
 
 ## loops:
 
-- while
-- for
+- `while`
+- `for`
 
 # Made by:
 - [pasztet211](https://github.com/pasztet211)
