@@ -1,3 +1,6 @@
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Version](https://img.shields.io/badge/version-0.1.0-orange)
+
 # Clopen
 programming language
 
@@ -16,11 +19,65 @@ it is very simple by design
 
 ## Installation
 
-- clone the repo to a C:\Clopen folder
-- add C:\Clopen to PATH
-- Install python and add it to PATH
+1. clone the repo to a C:\Clopen folder
+2. add C:\Clopen to **PATH**
+3. Install python and add it to **PATH**
 
 ## File Extension and running
 
-- extension: '.clo'
-- to run use the 'clopen filename.clo' command
+1. extension: `.clo`
+2. to run use the `clopen filename.clo` bash command
+
+## Example code
+
+```clo
+
+let var 0 int
+log var
+log "var"
+
+get var "integer: "
+log $var
+```
+**OUTPUT:**
+
+```
+0
+var
+
+integer: [typed value]
+[typed value]
+```
+
+## Variable types:
+
+| type  | value |
+|-------|-------|
+| int   | 10    |
+| float | 10.0  |
+| bool  | true  |
+| str   | "hi"  |
+
+## Commands:
+
+- `let`
+- `get`
+- `log`
+- `update`
+- `set`
+- `halt`
+- `shalt`
+
+## conditionals:
+
+- if 
+- elif
+- else
+
+## loops:
+
+- while
+- for
+
+# Made by:
+- [pasztet211](https://github.com/pasztet211)
