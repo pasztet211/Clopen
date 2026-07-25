@@ -15,3 +15,6 @@ class ClopenRuntimeError(Exception):
 
 class ClopenNoFileError(Exception):
     pass
+
+class ClopenFileError(Exception):
+    pass

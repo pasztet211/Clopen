@@ -2,9 +2,49 @@ from clo_loader import load_clo
 from interpreter import run
 from parser import parse
 import sys
+from info import HELP_DETAILS
+import difflib
+from errors import ClopenFileError
+
+VERSION = "0.1.4"
+PYTHON_VERSION = "3.13.12"
+STATUS = "beta"
+
+commands = [
+    "let",
+    "get",
+    "log",
+    "del",
+    "update",
+    "set",
+    "halt",
+    "shalt",
+    "return",
+    "if",
+    "elif",
+    "else",
+    "fn",
+    "with"
+]
+
+def suggest_command(name):
+    matches = difflib.get_close_matches(
+        name,
+        commands,
+        n=3,
+        cutoff=0.5
+    )
+
+    if matches:
+        print(f"Unknown command: {name}")
+        print("Did you mean:")
+        for match in matches:
+            print(f"    {match}")
+    else:
+        print(f"Unknown command: {name}")
 
 HELP = """\
-Usage: clopen [-h | --help] [-v | --version]
+Usage: clopen [-h <command>| --help <command>] [-v <command>| --version <command>]
 
 common commands
     let     create a variable "let var val type"
@@ -32,21 +72,36 @@ imports/modules
 """
 
 if len(sys.argv) < 2:
-    print("Usage: python main.py file.clo")
+    print("Usage: clopen [filename.clo] [-h <command> | --help <command>] [-v <command> | --version <command>]")
     exit()
 
 if sys.argv[1] == "--version" or sys.argv[1] == "-v":
-    print("Clopen 0.1.3 \npython interpreter 3.13.12\nstatus beta")
+    if len(sys.argv) < 3:
+        print(f"Clopen {VERSION} \npython interpreter {PYTHON_VERSION}\nstatus {STATUS}")
+    else:
+        if sys.argv[2] == "clopen":
+            print(f"Clopen {VERSION}")
+        elif sys.argv[2] == "interpreter":
+            print(f"python interpreter {PYTHON_VERSION}")
+        elif sys.argv[2] == "status":
+            print(f"status {STATUS}")
+        else:
+            raise Exception("Invalid version parameter")
     exit()
     
 elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
-    print(HELP)
+    if len(sys.argv) < 3:
+        print(HELP)
+    else:
+        try:
+            print(HELP_DETAILS[sys.argv[2]])
+        except KeyError:
+            suggest_command(sys.argv[2])
     exit()
 filename = sys.argv[1]
 
 if not filename.endswith(".clo"):
-    print("Error: file must be .clo")
-    exit()
+    raise ClopenFileError("File must have .clo extension")
 
 definitions = {}
 
