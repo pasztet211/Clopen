@@ -96,7 +96,7 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     shalted = True
                     return
             elif command == "with":
-                cmd_with(parts, definitions, additional_definitions, run)
+                cmd_with(parts, definitions, run, additional_definitions)
 
 
         elif instruction["type"] == "if":

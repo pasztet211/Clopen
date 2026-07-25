@@ -29,7 +29,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
             return
         
         elif name.startswith("$"):
-            get_var_from_definitions(name[1:], definitions, additional_definitions, inputs)
+            print(get_var_from_definitions(name[1:], definitions, additional_definitions, inputs))
             return
         else:
             if inputs is not None and name in inputs:
