@@ -48,7 +48,7 @@ integer: [typed value]
 [typed value]
 ```
 
-## Variable types:   ![works](https://img.shields.io/badge/stable-green)
+## Variable types:   ![works](https://img.shields.io/badge/status-stable-green)
 
 | type  | value |
 |-------|-------|
@@ -67,16 +67,20 @@ integer: [typed value]
 - `halt`
 - `shalt`
 
-## conditionals: ![works](https://img.shields.io/badge/stable-green)
+## conditionals: ![works](https://img.shields.io/badge/status-stable-green)
 
 - `if` 
 - `elif`
 - `else`
 
-## loops: ![works](https://img.shields.io/badge/stable-green)
+## loops: ![works](https://img.shields.io/badge/status-stable-green)
 
 - `while`
 - `for`
+
+## Miscellaneous: ![works](https://img.shields.io/badge/status-beta-yellow)
+
+- `with`
 
 # Made by:
 - [pasztet211](https://github.com/pasztet211)

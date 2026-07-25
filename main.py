@@ -2,7 +2,6 @@ from clo_loader import load_clo
 from interpreter import run
 from parser import parse
 import sys
-from interpreter import run
 
 if len(sys.argv) < 2:
     print("Usage: python main.py file.clo")

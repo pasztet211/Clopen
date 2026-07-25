@@ -1,4 +1,5 @@
 from commands import *
+from commands_long.with_ import cmd_with
 
 in_loop = False
 shalted = False
@@ -94,6 +95,8 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                 if cmd_shalt(in_loop):
                     shalted = True
                     return
+            elif command == "with":
+                cmd_with(parts, definitions, additional_definitions, run)
 
 
         elif instruction["type"] == "if":
