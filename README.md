@@ -1,5 +1,5 @@
 ![Python](https://img.shields.io/badge/Python-3.13.12-blue)
-![Clopen](https://img.shields.io/badge/version-0.1.3-orange)
+![Clopen](https://img.shields.io/badge/version-0.1.4-orange)
 
 # Clopen
 programming language
@@ -32,6 +32,16 @@ it is very simple by design
 clopen filename.clo
 ```
 in the folder containing the file
+
+## Clopen commands
+
+```bash
+clopen --help <optional command>
+clopen -h <optional command>
+
+clopen --version <optional topic>
+clopen -v <optional topic>
+```
 
 ## Example code
 
