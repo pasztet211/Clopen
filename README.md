@@ -1,4 +1,4 @@
-![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Python](https://img.shields.io/badge/Python-3.13.12-blue)
 ![Clopen](https://img.shields.io/badge/version-0.1.3-orange)
 
 # Clopen
@@ -83,4 +83,4 @@ integer: [typed value]
 - `with`
 
 # Made by:
-- [pasztet211](https://github.com/pasztet211)
+- [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange)
