@@ -1,5 +1,5 @@
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
-![Version](https://img.shields.io/badge/version-0.1.0-orange)
+![Clopen](https://img.shields.io/badge/version-0.1.0-orange)
 
 # Clopen
 programming language
@@ -49,7 +49,7 @@ integer: [typed value]
 [typed value]
 ```
 
-## Variable types:
+## Variable types:   ![works](https://img.shields.io/badge/stable-green)
 
 | type  | value |
 |-------|-------|
@@ -68,13 +68,13 @@ integer: [typed value]
 - `halt`
 - `shalt`
 
-## conditionals:
+## conditionals: ![works](https://img.shields.io/badge/stable-green)
 
 - if 
 - elif
 - else
 
-## loops:
+## loops: ![works](https://img.shields.io/badge/stable-green)
 
 - while
 - for
