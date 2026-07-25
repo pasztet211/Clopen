@@ -70,14 +70,14 @@ integer: [typed value]
 
 ## conditionals: ![works](https://img.shields.io/badge/stable-green)
 
-- if 
-- elif
-- else
+- `if` 
+- `elif`
+- `else`
 
 ## loops: ![works](https://img.shields.io/badge/stable-green)
 
-- while
-- for
+- `while`
+- `for`
 
 # Made by:
 - [pasztet211](https://github.com/pasztet211)
