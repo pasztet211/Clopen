@@ -25,7 +25,10 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
             print(definitions[name][0][index])
     else:
         if name.startswith("\"") and name.endswith("\""):
-            print(name[1:-1])
+            if not name[1:-1] == '\\n':
+                print(name[1:-1])
+            else:
+                print()
             return
         
         elif name.startswith("$"):
@@ -42,7 +45,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
                 print(definitions[name][0])
             
             else:
-                if name == "\\n":
+                if name == '\\n':
                     print()
                     return
                 print(name)

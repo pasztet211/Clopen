@@ -16,13 +16,13 @@ def parse(program):
         elif line.startswith("let "):
             parts = split_line(line)
         else:
-            parts = shlex.split(line)
+            parts = tokenize(line)
 
         if parts[0] == "if":
 
             branches = []
 
-            condition = parts[1]
+            condition = get_condition(parts)
 
             block, i = read_block(program, i + 1)
                 
@@ -39,11 +39,11 @@ def parse(program):
             while i < len(program):
 
                 next_line = program[i].strip()
-                next_parts = shlex.split(next_line)
+                next_parts = tokenize(next_line)
 
                 if next_parts[0] == "elif":
 
-                    condition = next_parts[1]
+                    condition = get_condition(next_parts)
 
                     block, i = read_block(program, i + 1)
 
@@ -74,7 +74,7 @@ def parse(program):
             })
         elif parts[0] == "while":
 
-            condition = parts[1]
+            condition = get_condition(parts)
 
             block, i = read_block(program, i + 1)
 
@@ -85,7 +85,7 @@ def parse(program):
             })
         elif parts[0] == "for":
 
-            data = parts[1].split(";")
+            data = get_condition(parts).split(";")
 
             init = shlex.split(data[0].strip())
             condition = data[1].strip()
@@ -104,7 +104,7 @@ def parse(program):
 
             name = parts[1]
 
-            inputs = parts[2].split(",")
+            inputs = get_condition(parts,2).split(",")
 
             block, i = read_block(program, i + 1)
 
@@ -152,3 +152,16 @@ def split_line(line):
         parts.append(current)
 
     return parts
+
+def get_condition(parts,index=1):
+    if "(" in parts:
+        start = parts.index("(")
+        end = parts.index(")")
+        return " ".join(parts[start + 1:end])
+    else:
+        return parts[index]
+
+def tokenize(line):
+    line = line.replace("(", " ( ")
+    line = line.replace(")", " ) ")
+    return shlex.split(line)
