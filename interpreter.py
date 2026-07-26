@@ -31,7 +31,7 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     else:
                         args = parts[1:]
 
-                    result = call_function(command, args, additional_definitions)\
+                    result = call_function(command, args, additional_definitions, inputs)
                     
                     if output and result is not None:
                         if output in additional_definitions:

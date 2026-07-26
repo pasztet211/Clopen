@@ -148,14 +148,12 @@ def eval_expr(expression, definitions, additional_definitions=None, inputs=None)
         raise ClopenSyntaxError("Invalid expression: " + expression)
 
 def get_value(value,definitions, additional_definitions=None, inputs=None):
-
-    if value in definitions:
+    if inputs is not None and value in inputs:
+        return inputs[value][0]
+    elif value in definitions:
         return definitions[value][0]
     elif additional_definitions is not None and value in additional_definitions:
         return additional_definitions[value][0]
-    elif inputs is not None and value in inputs:
-        return inputs[value][0]
-
 
     if "." in value:
         return float(value)
@@ -256,6 +254,8 @@ def parse_literal(value):
 
 def cmd_return(parts, definitions, additional_definitions=None, inputs=None):
     value = parts[1]
+
+    value = get_value(value,definitions,additional_definitions,inputs)
 
     try:
         value = eval_expr(
