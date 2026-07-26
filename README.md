@@ -74,29 +74,29 @@ integer: [typed value]
 
 ## Commands:
 
-- `let`
-- `get`
-- `log`
-- `update`
-- `set`
-- `halt`
-- `shalt`
-- `del`
+- `let` eg. `let var 10 int`
+- `get` eg. `get guess "guess: "`
+- `log` eg. `log "\n"`
+- `update` eg `update var += 8`
+- `set` eg. `set var 0 int`
+- `halt` eg. `halt`
+- `shalt` eg. `shalt`
+- `del` eg. `del var`
 
 ## conditionals: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
-- `if` 
-- `elif`
-- `else`
+- `if` eg. `if (var > 8) {}`
+- `elif` eg. `elif (var < 8) {}`
+- `else` eg. `else {}`
 
 ## loops: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
-- `while`
-- `for`
+- `while` eg. `while (guess != 8) {}`
+- `for` eg. `for (i 0 int;i < 7;i += 1) {}`
 
-## Miscellaneous: ![works](https://img.shields.io/badge/status-beta-yellow?style=flat-square)
+## Miscellaneous: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
-- `with` module imports (supports `from` and `as`)
+- `with` module imports (supports `from` and `as`) eg. `with math as m`
 
 # Made by:
 - [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange?style=flat-square)
