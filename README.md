@@ -33,8 +33,7 @@ clopen filename.clo
 ```
 in the folder containing the file
 
-## Clopen commands
-
+## Clopen commands[^first]
 ```bash
 clopen --help <optional command>
 clopen -h <optional command>
@@ -100,3 +99,7 @@ integer: [typed value]
 
 # Made by:
 - [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange?style=flat-square)
+
+
+[^first]:  replace **<optional command/topic>**
+with a function/keyword/topic eg. `let`
