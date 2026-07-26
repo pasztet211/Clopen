@@ -58,12 +58,12 @@ common commands
     set     sets the value and type of an existing variable "set var val type"
 
 conditionals
-    if      executes code if connected condition is true "if "expr" {}"
-    elif    executes code if connected condition is true and all previous conditions were false "elif "expr" {}"
+    if      executes code if connected condition is true "if (expr) {}"
+    elif    executes code if connected condition is true and all previous conditions were false "elif (expr) {}"
     else    executes code if all previous conditions were false "else {}"
 
 functions
-    fn      creates a function "fn name "inputs" {}"
+    fn      creates a function "fn name (input1,input2) {}"
 
 imports/modules
     with           imports file "with filename"

@@ -88,10 +88,10 @@ Example:
 if - executes code when a condition is true
 
 Syntax:
-    if "expression" {}
+    if (expression) {}
 
 Example:
-    if "x > 5" {}
+    if (x > 5) {}
 """,
 
     "elif": """\
@@ -99,7 +99,7 @@ elif - executes code when previous conditions failed
 and this condition is true
 
 Syntax:
-    elif "expression" {}
+    elif (expression) {}
 """,
 
     "else": """\
@@ -113,10 +113,10 @@ Syntax:
 fn - creates a function
 
 Syntax:
-    fn name "inputs" {}
+    fn name (inputs) {}
 
 Example:
-    fn add "a b" {}
+    fn add (a,b) {}
 """,
 
     "with": """\
