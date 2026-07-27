@@ -54,7 +54,7 @@ log $var
 ```
 **OUTPUT:**
 
-```
+```text
 0
 var
 
@@ -71,7 +71,7 @@ integer: [typed value]
 | bool  | true  |
 | str   | "hi"  |
 
-## Commands:
+## Commands: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
 - `let` eg. `let var 10 int`
 - `get` eg. `get guess "guess: "`
@@ -101,5 +101,4 @@ integer: [typed value]
 - [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange?style=flat-square)
 
 
-[^first]:  replace **<optional command/topic>**
-with a function/keyword/topic eg. `let`
+[^first]: Replace **<optional command/topic>** with the name of a command or topic. Examples: `let`, `fn`, or a version information category.
