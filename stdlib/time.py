@@ -3,29 +3,19 @@ import time
 _start = time.perf_counter_ns()
 
 def get_time(args, local_variables):
-    ms = (time.perf_counter_ns() - _start) // 1_000_000
+    if args[0] == "microseconds":
+        ms = (time.perf_counter_ns() - _start) // 1_000
+    elif args[0] == "seconds":
+        ms = (time.perf_counter_ns() - _start) // 1_000_000_000
+    else:
+        ms = (time.perf_counter_ns() - _start) // 1_000_000
     local_variables["__return__"] = [str(ms), "int"]
-
-
-def hello(args, local_variables):
-    local_variables["__return__"] = ["Hello from Python", "str"]
 
 def sleep(args, local_variables):
     time.sleep(int(args[0]) / 1000)
 
 
 definitions = {
-    "hello": [
-        {
-            "type": "fn",
-            "name": "hello",
-            "inputs": [],
-            "native": True,
-            "function": hello
-        },
-        "fn"
-    ],
-
     "time": [
         {
             "type": "fn",
