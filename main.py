@@ -57,6 +57,9 @@ common commands
     update  updates the value of a variable "update var "expression""
     set     sets the value and type of an existing variable "set var val type"
 
+list commands
+    add.to  adds value to end of start of or an index of a list "add 0 int to start-of list"
+
 conditionals
     if      executes code if connected condition is true "if (expr) {}"
     elif    executes code if connected condition is true and all previous conditions were false "elif (expr) {}"

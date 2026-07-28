@@ -131,5 +131,18 @@ Examples:
     with math
     with pi from math
     with math as m
+""",
+
+    "add.to": """\
+add.to - adds value to a list
+
+Syntax
+    add x type to start-of list
+    add x type to end-of list
+    add x type to index-[index] list
+
+Examples
+    add 20 int to end-of nums
+    add "he" str to start-of pronouns
 """
 }

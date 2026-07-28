@@ -45,9 +45,10 @@ clopen -v <optional topic>
 ## Example code
 
 ```clo
-let var 0 int
+let var [0,1] int
 log var
 log "var"
+log var[0]
 
 get var "integer: "
 log $var
@@ -55,8 +56,9 @@ log $var
 **OUTPUT:**
 
 ```text
-0
+[0,1]
 var
+0
 
 integer: [typed value]
 [typed value]
@@ -71,10 +73,12 @@ integer: [typed value]
 | bool  | true  |
 | str   | "hi"  |
 | list  | [1,2] |  
+
 **Note:** Lists are not guaranteed to be complete or error-free. Some entries may cause unexpected behavior or crashes.
 
 ## Commands: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
+### General:
 - `let` eg. `let var 10 int`
 - `get` eg. `get guess "guess: "`
 - `log` eg. `log "\n"`
@@ -83,6 +87,10 @@ integer: [typed value]
 - `halt` eg. `halt`
 - `shalt` eg. `shalt`
 - `del` eg. `del var`
+
+### Lists:
+
+- `add` eg. `add 6 int to end-of values`
 
 ## conditionals: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
