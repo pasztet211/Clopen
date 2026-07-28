@@ -11,6 +11,16 @@ def cmd_update(parts,definitions,additional_definitions=None,inputs=None):
 
 def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
     name = parts[1]
+    if inputs is not None and name in inputs:
+        _type = inputs[name][1]
+        value = inputs[name][0]
+    elif additional_definitions is not None and name in additional_definitions:
+        _type = additional_definitions[name][1]
+        value = additional_definitions[name][0]
+    else:
+        _type = definitions[name][1]
+        value = definitions[name][0]
+    
     if "[" in name and name.endswith("]"):
         print(get_index_value(name,definitions,additional_definitions,inputs))
     else:
@@ -24,6 +34,18 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
         elif name.startswith("$"):
             print(get_var_from_definitions(name[1:], definitions, additional_definitions, inputs))
             return
+        elif _type == "list":
+            output = []
+
+            for index in sorted(value.keys(), key=int):
+                item, item_type = value[index]
+
+                if item_type == "bool":
+                    output.append("true" if item else "false")
+                else:
+                    output.append(str(item))
+
+            print("[" + ",".join(output) + "]")
         else:
             if inputs is not None and name in inputs:
                 print(inputs[name][0])
@@ -129,8 +151,6 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
 def cmd_return(parts, definitions, additional_definitions=None, inputs=None):
     value = parts[1]
 
-    value = get_value(value,definitions,additional_definitions,inputs)
-
     try:
         value = eval_expr(
             value,
@@ -138,11 +158,25 @@ def cmd_return(parts, definitions, additional_definitions=None, inputs=None):
             additional_definitions,
             inputs
         )
-    except Exception:
-        pass
+        _type = type(value).__name__
+    except Exception: 
+        if "[" in value and value.endswith("]"): #type: ignore
+            value,_type = get_index_val_typ(
+                value,
+                definitions,
+                additional_definitions,
+                inputs
+            )
+        else:
+            value,_type = get_val_typ(
+                value,
+                definitions,
+                additional_definitions,
+                inputs
+            )
 
     if additional_definitions is not None:
-        additional_definitions["__return__"] = value
+        additional_definitions["__return__"] = value,_type
 
 def cmd_del(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]

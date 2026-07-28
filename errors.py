@@ -18,3 +18,6 @@ class ClopenNoFileError(Exception):
 
 class ClopenFileError(Exception):
     pass
+
+class ClopenTypeError(Exception):
+    pass

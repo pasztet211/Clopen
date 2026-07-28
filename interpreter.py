@@ -31,18 +31,18 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     else:
                         args = parts[1:]
 
-                    result = call_function(command, args, additional_definitions, inputs)
+                    result,_type = call_function(command, args, additional_definitions, inputs)
                     
                     if output and result is not None:
                         if output in additional_definitions:
                             additional_definitions[output] = [
                                 result,
-                                type(result).__name__
+                                _type
                             ]
                         else:
                             definitions[output] = [
                                 result,
-                                type(result).__name__
+                                _type
                             ]
 
                     continue
@@ -57,12 +57,12 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     else:
                         args = parts[1:]
 
-                    result = call_function(command, args, definitions)
+                    result,_type = call_function(command, args, definitions)
 
                     if output and result is not None:
                         definitions[output] = [
                             result,
-                            type(result).__name__
+                            _type
                         ]
 
                     continue
@@ -185,7 +185,6 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     break
 
         elif instruction["type"] == "fn":
-
             definitions[instruction["name"]] = [
                 {
                     "inputs": instruction["inputs"],
@@ -205,13 +204,15 @@ def call_function(name, args, definitions, output=None):
 
     for input_name, value in zip(function["inputs"], args):
         if value in definitions:
+            _type = definitions[value][1]
             value = definitions[value][0]
         else:
             value = parse_literal(value)
+            _type = type(value).__name__
 
         inputs[input_name] = [
             value,
-            type(value).__name__
+            _type
         ]
 
     if inputs != {}:
@@ -221,4 +222,4 @@ def call_function(name, args, definitions, output=None):
     if "__return__" in local_definitions:
         return local_definitions["__return__"]
 
-    return None
+    return None,None

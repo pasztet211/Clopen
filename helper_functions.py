@@ -3,15 +3,41 @@ from errors import *
 def get_index_value(name, definitions, additional_definitions=None, inputs=None):
     name_, index = name[:-1].split("[", 1)
 
-    if name_ not in definitions or (additional_definitions is not None and name_ not in additional_definitions):
+    if inputs is not None and name_ in inputs:
+        target = inputs
+
+    elif additional_definitions is not None and name_ in additional_definitions:
+        target = additional_definitions
+
+    elif name_ in definitions:
+        target = definitions
+
+    else:
         raise ClopenNameError("Variable does not exist: " + name_)
 
     index = str(int(index))
 
-    if additional_definitions is not None and name_ in additional_definitions:
-        return additional_definitions[name_][0][index]
+    return target[name_][0][index][0]
+
+def get_index_val_typ(name, definitions, additional_definitions=None, inputs=None):
+    name_, index = name[:-1].split("[", 1)
+
+    if inputs is not None and name_ in inputs:
+        target = inputs
+
+    elif additional_definitions is not None and name_ in additional_definitions:
+        target = additional_definitions
+
+    elif name_ in definitions:
+        target = definitions
+
     else:
-        return definitions[name_][0][index][0]
+        raise ClopenNameError("Variable does not exist: " + name_)
+
+    index = str(int(index))
+
+    return target[name_][0][index][0], target[name_][0][index][1]
+
 
 def get_index_name(name):
     name_, index = name[:-1].split("[", 1)
@@ -67,6 +93,16 @@ def parse_literal(value):
     return value
 
 def eval_bool(expression, definitions, additional_definitions=None, inputs=None):
+
+    if "[" in expression and expression.endswith("]"):
+        expression = get_index_value(
+            expression,
+            definitions,
+            additional_definitions,
+            inputs
+        )
+
+        return expression
 
     if inputs is not None and expression in inputs:
         value = inputs[expression][0]
@@ -149,26 +185,45 @@ def get_value(value,definitions, additional_definitions=None, inputs=None):
 
     return int(value)
 
+def get_val_typ(value,definitions, additional_definitions=None, inputs=None):
+    if inputs is not None and value in inputs:
+        return inputs[value][0] ,inputs[value][1]
+    elif value in definitions:
+        return definitions[value][0], definitions[value][1]
+    elif additional_definitions is not None and value in additional_definitions:
+        return additional_definitions[value][0], additional_definitions[value][1]
+
+    if "." in value:
+        return float(value), "float"
+
+    return int(value), "int"
+
 def eval_expr(expression, definitions, additional_definitions=None, inputs=None):
 
     variables = {}
-
+    expression = handle_lists(
+        expression,
+        definitions,
+        additional_definitions,
+        inputs
+    )
     if len(expression) == 1:
         return get_value(expression, definitions, additional_definitions, inputs)
 
     # globals
     for name, data in definitions.items():
-        variables[name] = data[0]
+        if data[1] != "list":
+            variables[name] = data[0]
 
-    # function locals
     if additional_definitions is not None:
         for name, data in additional_definitions.items():
-            variables[name] = data[0]
+            if data[1] != "list":
+                variables[name] = data[0]
 
-    # function inputs
     if inputs is not None:
         for name, data in inputs.items():
-            variables[name] = data[0]
+            if data[1] != "list":
+                variables[name] = data[0]
 
     try:
         return eval(expression, {"__builtins__": {}}, variables)
@@ -224,3 +279,51 @@ def set_value(container, name, value, _type, index=None):
     else:
         container[name][0] = value
         container[name][1] = _type
+
+def handle_lists(expression, definitions, additional_definitions=None, inputs=None):
+    containers = [definitions, additional_definitions, inputs]
+
+    while True:
+        replaced = False
+
+        for container in containers:
+            if container is None:
+                continue
+
+            for name, data in container.items():
+                if data[1] == "list":
+                    if f"{name}[" in expression:
+                        start = expression.find(name + "[")
+                        end = expression.find("]", start)
+
+                        if start != -1 and end != -1:
+                            list_index = expression[start:end + 1]
+
+                            value = get_index_value(
+                                list_index,
+                                definitions,
+                                additional_definitions,
+                                inputs
+                            )
+
+                            expression = expression.replace(
+                                list_index,
+                                str(value),
+                                1
+                            )
+
+                            replaced = True
+                            break
+
+                    elif name in expression:
+                        raise ClopenTypeError(
+                            "Cannot use list without an index: " + name
+                        )
+
+            if replaced:
+                break
+
+        if not replaced:
+            break
+
+    return expression
