@@ -1,9 +1,12 @@
+[Clopen Code Guide](../README.md)
+
 # Guide to making a .py extension for Clopen
 
 ## 1. Create file
 
 - Your file should have a name reflecting what the extension does, eg. `time.py`.
 - The filename cannot contain `.` characters.
+- create the file in **C:\\Clopen\\stdlib\\**
 
 ## 2. Write file
 
@@ -75,3 +78,17 @@ definitions = {
     "CONSTANT_NAME": [str(value), type(value).__name__]
 }
 ```
+
+# Guide to making a .clo extension for Clopen
+
+## 1. Create the file
+
+- Your file should have a name reflecting what the extension does, eg. `time.clo`.
+- The filename cannot contain `.` characters.
+- create the file in the folder you have your .clo project in
+
+## 2. Write File
+
+- Here you write a normal **Clopen** program 
+- The program is executed when the module is imported using with.
+- Any variables or functions created by the module can then be imported and used by the main program.

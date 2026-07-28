@@ -119,10 +119,9 @@ integer: [typed value]
 
 ### Miscellanier: ![works](https://img.shields.io/badge/status-beta-yellow?style=flat-square)
 
-- `with` module imports (supports `from` and `as`) eg. `with math as m`
+- `with` module imports (supports `from` and `as`) eg. `with math as m` [Additional Extension guide](docs/ADDITIONAL.md)
 
 # Made by:
 - [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange?style=flat-square)
-
 
 [^first]: Replace **<optional command/topic>** with the name of a command or topic. Examples: `let`, `fn`, or a version information category.
