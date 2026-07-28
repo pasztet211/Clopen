@@ -17,7 +17,12 @@ reserved = [
     "halt",
     "get", 
     "true",
-    "false"
+    "false",
+    "int",
+    "str",
+    "bool",
+    "list",
+    "float"
 ]
 
 

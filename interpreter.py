@@ -98,6 +98,9 @@ def run(program,definitions,additional_definitions=None,inputs=None):
             elif command == "with":
                 cmd_with(parts, definitions, run, additional_definitions)
 
+            elif command == "add":
+                cmd_to_add(parts,definitions,additional_definitions)
+
 
         elif instruction["type"] == "if":
             executed = False

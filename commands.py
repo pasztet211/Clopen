@@ -202,3 +202,51 @@ def cmd_shalt(in_loop):
         return True
     else:
         raise ClopenRuntimeError("Cannot shalt outside of a loop")
+
+def cmd_to_add(parts,definitions,additional_definitions=None):
+    number = None
+    what_add = parts[1]
+    what_add_type = parts[2]
+    if parts[3] != "to":
+        raise ClopenSyntaxError("Expected 'to' before insert location")
+    where_add = parts[4]
+    list_ = parts[5]
+    target = get_target_nl(list_,definitions,additional_definitions)
+    print(parts)
+    print(where_add)
+    if where_add.startswith("index-"):
+        try:
+            number = int(where_add.removeprefix("index-"))
+        except ValueError:
+            raise ClopenValueError("Invalid insert index")
+        where_add = "index"
+    print(number)
+
+    target_list = target[list_][0]
+
+    if number != None and number > len(target_list):
+        raise ClopenValueError("Insert index out of range")
+
+    if where_add == "end-of":
+        if not target_list:
+            target_list["0"] = [what_add, what_add_type]
+            return
+        last_key = list(target_list.keys())[-1]
+        target_list[str(int(last_key) + 1)] = [what_add, what_add_type]
+        target[list_][0] = target_list
+        return
+
+    elif where_add == "start-of":
+        target_list = {str(int(key) + 1): value for key, value in target_list.items()}
+        target_list["0"] = [what_add, what_add_type]
+        target[list_][0] = target_list
+        return
+
+    elif where_add == "index":
+        target_list = {
+            str(int(key) + 1) if int(key) >= number else key: value
+            for key, value in target_list.items()
+        }
+        target_list[number] = [what_add, what_add_type]
+        target[list_][0] = target_list
+        return

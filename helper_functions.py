@@ -266,6 +266,17 @@ def get_target(name, definitions, additional_definitions=None, inputs=None):
 
     return target, name, index
 
+def get_target_nl(name, definitions, additional_definitions=None, inputs=None):
+    if inputs is not None and name in inputs:
+        target = inputs
+    elif additional_definitions is not None and name in additional_definitions:
+        target = additional_definitions
+    elif name in definitions:
+        target = definitions
+    else:
+        raise ClopenNameError("Variable does not exist: " + name)
+
+    return target
 def get_value_type(container, name, index=None):
     if index is not None:
         return container[name][0][index][0], container[name][0][index][1]
