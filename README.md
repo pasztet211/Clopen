@@ -1,5 +1,5 @@
-![Python](https://img.shields.io/badge/Python-3.13.12-blue?style=flat-square)
-![Clopen](https://img.shields.io/badge/version-0.1.4-orange?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3.14.2-blue?style=flat-square)
+![Clopen](https://img.shields.io/badge/version-0.1.6-orange?style=flat-square)
 
 # Clopen
 programming language
@@ -78,17 +78,24 @@ integer: [typed value]
 
 ## Commands: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
-### General:
+### Variables: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
+
 - `let` eg. `let var 10 int`
-- `get` eg. `get guess "guess: "`
-- `log` eg. `log "\n"`
 - `update` eg `update var += 8`
 - `set` eg. `set var 0 int`
-- `halt` eg. `halt`
-- `shalt` eg. `shalt`
 - `del` eg. `del var`
 
-### Lists:
+### User content: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
+ 
+- `get` eg. `get guess "guess: "`
+- `log` eg. `log "\n"`
+
+### Stoping: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
+
+- `halt` eg. `halt`
+- `shalt` eg. `shalt`
+
+### Lists: ![works](https://img.shields.io/badge/status-beta-yellow?style=flat-square)
 
 - `add` eg. `add 6 int to end-of values`
 
@@ -104,6 +111,13 @@ integer: [typed value]
 - `for` eg. `for (i 0 int;i < 7;i += 1) {}`
 
 ## Miscellaneous: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
+
+### Functions: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
+
+- `fn` eg. `fn name (args) {}`
+- `return` eg. `return "value"`
+
+### Miscellanier: ![works](https://img.shields.io/badge/status-beta-yellow?style=flat-square)
 
 - `with` module imports (supports `from` and `as`) eg. `with math as m`
 

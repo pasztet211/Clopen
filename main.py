@@ -6,8 +6,8 @@ from info import HELP_DETAILS
 import difflib
 from errors import ClopenFileError
 
-VERSION = "0.1.4"
-PYTHON_VERSION = "3.13.12"
+VERSION = "0.1.6"
+PYTHON_VERSION = "3.14.2"
 STATUS = "beta"
 
 commands = [
