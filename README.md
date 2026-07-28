@@ -70,6 +70,8 @@ integer: [typed value]
 | float | 10.0  |
 | bool  | true  |
 | str   | "hi"  |
+| list  | [1,2] |  
+**Note:** Lists are not guaranteed to be complete or error-free. Some entries may cause unexpected behavior or crashes.
 
 ## Commands: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
