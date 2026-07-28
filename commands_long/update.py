@@ -3,6 +3,8 @@ from helper_functions import *
 
 def update(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
+    if is_imported(name):
+        raise ClopenReadonlyError("cannot modify imported value")
     operator = parts[2]
     value = parts[3]
 

@@ -80,6 +80,9 @@ def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
     _type = parts[3]
     index = None
 
+    if is_imported(name):
+        raise ClopenReadonlyError("cannot modify imported value")
+
     if "[" in name and name.endswith("]"):
         index, name = get_index_name(name)
 
@@ -121,6 +124,8 @@ def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
 def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
 
     name = parts[1]
+    if is_imported(name):
+        raise ClopenReadonlyError("cannot modify imported value")
     message = None
     if len(parts) == 3:
         message = parts[2]
@@ -192,6 +197,8 @@ def cmd_return(parts, definitions, additional_definitions=None, inputs=None):
 
 def cmd_del(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
+    if is_imported(name):
+        raise ClopenReadonlyError("cannot delete imported value")
 
     # inputs cannot be deleted
     if inputs is not None and name in inputs:
@@ -223,6 +230,8 @@ def cmd_to_add(parts,definitions,additional_definitions=None):
         raise ClopenSyntaxError("Expected 'to' before insert location")
     where_add = parts[4]
     list_ = parts[5]
+    if is_imported(list_):
+        raise ClopenReadonlyError("cannot modify imported value")
     target = get_target_nl(list_,definitions,additional_definitions)
     print(parts)
     print(where_add)

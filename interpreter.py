@@ -34,6 +34,8 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     result,_type = call_function(command, args, additional_definitions, inputs)
                     
                     if output and result is not None:
+                        if is_imported(output):
+                            raise ClopenReadonlyError("cannot modify imported value")
                         if output in additional_definitions:
                             additional_definitions[output] = [
                                 result,
@@ -60,6 +62,8 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     result,_type = call_function(command, args, definitions)
 
                     if output and result is not None:
+                        if is_imported(output):
+                            raise ClopenReadonlyError("cannot modify imported value")
                         definitions[output] = [
                             result,
                             _type

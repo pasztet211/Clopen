@@ -338,3 +338,6 @@ def handle_lists(expression, definitions, additional_definitions=None, inputs=No
             break
 
     return expression
+
+def is_imported(name):
+    return "." in name

@@ -21,3 +21,6 @@ class ClopenFileError(Exception):
 
 class ClopenTypeError(Exception):
     pass
+
+class ClopenReadonlyError(Exception):
+    pass
