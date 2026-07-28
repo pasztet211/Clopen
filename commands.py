@@ -91,7 +91,10 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
     if len(parts) == 3:
         message = parts[2]
 
-    if name not in definitions:
+    index = None
+    target,name,index = get_target(name,definitions,additional_definitions,inputs)
+        
+    if name not in target and target is not None:
         raise ClopenNameError("Variable does not exist: " + name)
 
     if message != None:
@@ -99,7 +102,10 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
     else:
         value = input("> ")
 
-    _type = definitions[name][1]
+    if index is None and target is not None:
+        _type = target[name][1]
+    elif target is not None:
+        _type = target[name][0][index][1]
 
     if _type == "int":
         value = int(value)
@@ -114,8 +120,11 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
             value = False
         else:
             raise ClopenValueError("Invalid bool value")
-
-    definitions[name][0] = value
+        
+    if index is None and target is not None:
+        target[name][0] = value
+    elif target is not None:
+        target[name][0][index][0] = value
 
 def cmd_return(parts, definitions, additional_definitions=None, inputs=None):
     value = parts[1]

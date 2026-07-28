@@ -1,33 +1,6 @@
 from errors import *
 from helper_functions import *
 
-
-def get_target(name, definitions, additional_definitions=None, inputs=None):
-    if inputs is not None and name in inputs:
-        return inputs
-    elif additional_definitions is not None and name in additional_definitions:
-        return additional_definitions
-    elif name in definitions:
-        return definitions
-    else:
-        raise ClopenNameError("Variable does not exist: " + name)
-
-
-def get_value_type(container, name, index=None):
-    if index is not None:
-        return container[name][0][index][0], container[name][0][index][1]
-    return container[name][0], container[name][1]
-
-
-def set_value(container, name, value, _type, index=None):
-    if index is not None:
-        container[name][0][index][0] = value
-        container[name][0][index][1] = _type
-    else:
-        container[name][0] = value
-        container[name][1] = _type
-
-
 def update(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
     operator = parts[2]

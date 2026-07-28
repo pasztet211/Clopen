@@ -6,7 +6,7 @@ def get_index_value(name, definitions, additional_definitions=None, inputs=None)
     if name_ not in definitions or (additional_definitions is not None and name_ not in additional_definitions):
         raise ClopenNameError("Variable does not exist: " + name_)
 
-    index = str(index)
+    index = str(int(index))
 
     if additional_definitions is not None and name_ in additional_definitions:
         return additional_definitions[name_][0][index]
@@ -194,7 +194,7 @@ def get_target(name, definitions, additional_definitions=None, inputs=None):
     index = None
 
     if "[" in name and name.endswith("]"):
-        index, name = name[:-1].split("[", 1)
+        name, index = name[:-1].split("[", 1)
         try:
             index = str(int(index))
         except ValueError:
@@ -210,3 +210,17 @@ def get_target(name, definitions, additional_definitions=None, inputs=None):
         raise ClopenNameError("Variable does not exist: " + name)
 
     return target, name, index
+
+def get_value_type(container, name, index=None):
+    if index is not None:
+        return container[name][0][index][0], container[name][0][index][1]
+    return container[name][0], container[name][1]
+
+
+def set_value(container, name, value, _type, index=None):
+    if index is not None:
+        container[name][0][index][0] = value
+        container[name][0][index][1] = _type
+    else:
+        container[name][0] = value
+        container[name][1] = _type
