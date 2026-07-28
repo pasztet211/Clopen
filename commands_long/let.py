@@ -1,4 +1,5 @@
 from errors import *
+from helper_functions import *
 
 reserved = [
     "let",
@@ -51,7 +52,11 @@ def let(parts, definitions, additional_definitions=None, inputs=None):
 
     elif _type == "list":
         value = value[1:-1]
-        value = [parse_literal(x.strip()) for x in value.split(",")]
+        value_temp = [list(parse_literal_with_type(x.strip())) for x in value.split(",")]
+        value = {}
+        for i in range(len(value_temp)):
+            value[f"{i}"] = value_temp[i]
+
 
 
     # Inputs cannot be overwritten
@@ -75,24 +80,23 @@ def let(parts, definitions, additional_definitions=None, inputs=None):
 
     definitions[name] = [value, _type]
 
-def parse_literal(value):
-
+def parse_literal_with_type(value):
     if value == "true":
-        return True
+        return True, "bool"
 
     if value == "false":
-        return False
+        return False, "bool"
 
     if value.startswith('"') and value.endswith('"'):
-        return value[1:-1]
+        return value[1:-1], "str"
 
     try:
-        return int(value)
+        return int(value), "int"
     except ValueError:
         pass
 
     try:
-        return float(value)
+        return float(value), "float"
     except ValueError:
         pass
 
