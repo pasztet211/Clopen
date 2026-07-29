@@ -144,5 +144,29 @@ Syntax
 Examples
     add 20 int to end-of nums
     add "he" str to start-of pronouns
+""",
+
+    "--debug": """\
+clopen --debug | -d <filename>   opens debugger in selected mode for selected file
+
+Modes
+    --basic
+        Runs the basic debugger.
+        Shows errors and continues execution after failures.
+
+Examples
+    clopen --debug --basic test.clo
+""",
+
+    "-d": """\
+clopen --debug | -d <filename>   opens debugger in selected mode for selected file
+
+Modes
+    --basic
+        Runs the basic debugger.
+        Shows errors and continues execution after failures.
+
+Examples
+    clopen --debug --basic test.clo
 """
 }

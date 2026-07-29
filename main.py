@@ -45,7 +45,7 @@ def suggest_command(name):
         print(f"Unknown command: {name}")
 
 HELP = """\
-Usage: clopen [-h <command>| --help <command>] [-v <command>| --version <command>] [--debug <file> | -d <file>]
+Usage: clopen [filename.clo] [-h <command> | --help <command>] [-v <command> | --version <command>] or \nclopen [-d | --debug] [mode (check 'clopen --help --debug')] [filename.clo]
 
 common commands
     let     create a variable "let var val type"
@@ -76,7 +76,7 @@ imports/modules
 """
 
 if len(sys.argv) < 2:
-    print("Usage: clopen [filename.clo] [-h <command> | --help <command>] [-v <command> | --version <command>]")
+    print("Usage: clopen [filename.clo] [-h <command> | --help <command>] [-v <command> | --version <command>] or \nclopen [-d | --debug] [mode (check 'clopen --help --debug')] [filename.clo]")
     exit()
 
 if sys.argv[1] == "--version" or sys.argv[1] == "-v":
