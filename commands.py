@@ -12,26 +12,35 @@ def cmd_update(parts,definitions,additional_definitions=None,inputs=None):
 def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
     name = parts[1]
     if inputs is not None and name in inputs:
-        if name.startswith("$"):
-            _type = inputs[name[1:]][1]
-            value = inputs[name[1:]][0]
-        else:
-            _type = inputs[name][1]
-            value = inputs[name][0]
+        try:
+            if name.startswith("$"):
+                _type = inputs[name[1:]][1]
+                value = inputs[name[1:]][0]
+            else:
+                _type = inputs[name][1]
+                value = inputs[name][0]
+        except Exception:
+            raise ClopenNameError("Variable does not exist: " + name.lstrip("$"))
     elif additional_definitions is not None and name in additional_definitions:
-        if name.startswith("$"):
-            _type = additional_definitions[name[1:]][1]
-            value = additional_definitions[name[1:]][0]
-        else:
-            _type = additional_definitions[name][1]
-            value = additional_definitions[name][0]
+        try:
+            if name.startswith("$"):
+                _type = additional_definitions[name[1:]][1]
+                value = additional_definitions[name[1:]][0]
+            else:
+                _type = additional_definitions[name][1]
+                value = additional_definitions[name][0]
+        except Exception:
+            raise ClopenNameError("Variable does not exist: " + name.lstrip("$"))
     else:
-        if name.startswith("$"):
-            _type = definitions[name[1:]][1]
-            value = definitions[name[1:]][0]
-        else:
-            _type = definitions[name][1]
-            value = definitions[name][0]
+        try:
+            if name.startswith("$"):
+                _type = definitions[name[1:]][1]
+                value = definitions[name[1:]][0]
+            else:
+                _type = definitions[name][1]
+                value = definitions[name][0]
+        except Exception:
+            raise ClopenNameError("Variable does not exist: " + name.lstrip("$"))
     
     if "[" in name and name.endswith("]"):
         print(get_index_value(name,definitions,additional_definitions,inputs))

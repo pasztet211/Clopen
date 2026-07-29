@@ -19,6 +19,8 @@ def parse(program):
         else:
             parts = tokenize(line)
 
+        line_nr = int(parts[-1])
+        parts.pop(-1)
         if parts[0] == "if":
 
             branches = []
@@ -29,7 +31,9 @@ def parse(program):
                 
             branches.append({
                 "condition": condition,
-                "block": parse(block)
+                "block": parse(block),
+                "line": line_nr
+
             })
 
             else_block = None
@@ -50,7 +54,9 @@ def parse(program):
 
                     branches.append({
                         "condition": condition,
-                        "block": parse(block)
+                        "block": parse(block),
+                        "line": line_nr
+
                     })
 
                     i += 1
@@ -71,7 +77,9 @@ def parse(program):
             instructions.append({
                 "type": "if",
                 "branches": branches,
-                "else": else_block
+                "else": else_block,
+                "line": line_nr
+
             })
         elif parts[0] == "while":
 
@@ -82,7 +90,8 @@ def parse(program):
             instructions.append({
                 "type": "while",
                 "condition": condition,
-                "block": parse(block)
+                "block": parse(block),
+                "line": line_nr
             })
         elif parts[0] == "for":
 
@@ -99,7 +108,8 @@ def parse(program):
                 "init": init,
                 "condition": condition,
                 "update": update,
-                "block": parse(block)
+                "block": parse(block),
+                "line": line_nr
             })
         elif parts[0] == "fn":
 
@@ -113,12 +123,14 @@ def parse(program):
                 "type": "fn",
                 "name": name,
                 "inputs": [x.strip() for x in inputs if x.strip()],
-                "block": parse(block)
+                "block": parse(block),
+                "line": line_nr
             })
         else:
             instructions.append({
                 "type": "command",
-                "parts": parts
+                "parts": parts,
+                "line": line_nr
             })
         i += 1
 
