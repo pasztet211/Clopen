@@ -5,6 +5,7 @@ import sys
 from info import HELP_DETAILS
 import difflib
 from errors import ClopenFileError
+import debbuger_clo
 
 VERSION = "0.1.6"
 PYTHON_VERSION = "3.14.2"
@@ -44,7 +45,7 @@ def suggest_command(name):
         print(f"Unknown command: {name}")
 
 HELP = """\
-Usage: clopen [-h <command>| --help <command>] [-v <command>| --version <command>]
+Usage: clopen [-h <command>| --help <command>] [-v <command>| --version <command>] [--debug <file> | -d <file>]
 
 common commands
     let     create a variable "let var val type"
@@ -101,15 +102,48 @@ elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
         except KeyError:
             suggest_command(sys.argv[2])
     exit()
-filename = sys.argv[1]
 
-if not filename.endswith(".clo"):
-    raise ClopenFileError("File must have .clo extension")
+if sys.argv[1] == "--debug" or sys.argv[1] == "-d":
+    if len(sys.argv) > 2 and sys.argv[2] == "--basic":
+        if len(sys.argv) < 4:
+            raise ClopenFileError("File must have .clo extension")
+        filename = sys.argv[3]
 
-definitions = {}
+        if not filename.endswith(".clo"):
+            raise ClopenFileError("File must have .clo extension")
 
-program = load_clo(filename)
+        definitions = {}
+    
+        program = load_clo(filename)
+        
+        instructions = parse(program)
+        #print(instructions)
+        debbuger_clo.run_debug_basic(run, instructions, definitions)
+    else:
+        if len(sys.argv) < 3:
+            raise ClopenFileError("File must have .clo extension")
+        filename = sys.argv[2]
 
-instructions = parse(program)
-#print(instructions)
-run(instructions, definitions)
+    if not filename.endswith(".clo"):
+        raise ClopenFileError("File must have .clo extension")
+
+    definitions = {}
+    
+    program = load_clo(filename)
+    
+    instructions = parse(program)
+    #print(instructions)
+    #debbuger_clo.run_debug_basic(run, instructions, definitions)
+else:
+    filename = sys.argv[1]
+ 
+    if not filename.endswith(".clo"):
+        raise ClopenFileError("File must have .clo extension")
+
+    definitions = {}
+
+    program = load_clo(filename)
+
+    instructions = parse(program)
+    #print(instructions)
+    run(instructions, definitions)
