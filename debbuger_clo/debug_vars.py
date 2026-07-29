@@ -7,6 +7,7 @@ def run_debug_vars(run, program, definitions):
                 f"created {parts[1]} "
                 f"with value '{parts[2]} {parts[3]}'"
             )
+            defined = run([line], defined)
 
         if parts[0] == "update":
             name = parts[1]
@@ -18,6 +19,14 @@ def run_debug_vars(run, program, definitions):
             print(f"{name}: {old} -> {new}")
 
         else:
-            defined = run([line], defined)
+            try:
+                defined = run([line], defined)
+            except Exception as e:
+                instruction = "".join(part + " " for part in line["parts"]).strip()
+                
+                print(
+                    f"[Line {line["line"]}] error at '{instruction}' "
+                    f"{type(e).__name__}: {e} "
+                )
 
     return defined

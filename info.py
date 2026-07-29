@@ -153,6 +153,10 @@ Modes
     --basic
         Runs the basic debugger.
         Shows errors and continues execution after failures.
+        
+    --vars
+        runs the code showing variable transformations
+        Shows variable errors
 
 Examples
     clopen --debug --basic test.clo
@@ -165,6 +169,10 @@ Modes
     --basic
         Runs the basic debugger.
         Shows errors and continues execution after failures.
+    
+    --vars
+        runs the code showing variable transformations
+        Shows variable errors
 
 Examples
     clopen --debug --basic test.clo
