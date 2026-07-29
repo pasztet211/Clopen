@@ -17,7 +17,7 @@ def update(parts, definitions, additional_definitions=None, inputs=None):
         except ValueError:
             raise ClopenValueError(f"Cannot use value: {index} as list index")
 
-    target = get_target(
+    target, name, index = get_target(
         name,
         definitions,
         additional_definitions,

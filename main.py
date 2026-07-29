@@ -119,6 +119,21 @@ if sys.argv[1] == "--debug" or sys.argv[1] == "-d":
         instructions = parse(program)
         #print(instructions)
         debbuger_clo.run_debug_basic(run, instructions, definitions)
+    elif len(sys.argv) > 2 and sys.argv[2] == "--vars":
+        if len(sys.argv) < 4:
+            raise ClopenFileError("File must have .clo extension")
+        filename = sys.argv[3]
+        
+        if not filename.endswith(".clo"):
+            raise ClopenFileError("File must have .clo extension")
+        
+        definitions = {}
+            
+        program = load_clo(filename)
+                
+        instructions = parse(program)
+        #print(instructions)
+        debbuger_clo.run_debug_vars(run, instructions, definitions)
     else:
         if len(sys.argv) < 3:
             raise ClopenFileError("File must have .clo extension")

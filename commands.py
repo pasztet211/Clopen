@@ -274,7 +274,7 @@ def cmd_to_add(parts,definitions,additional_definitions=None):
 
     elif where_add == "index":
         target_list = {
-            str(int(key) + 1) if int(key) >= number else key: value
+            str(int(key) + 1) if int(key) >= number else key: value #type: ignore
             for key, value in target_list.items()
         }
         target_list[number] = [what_add, what_add_type]
