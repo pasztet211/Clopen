@@ -1,5 +1,5 @@
 ![Python](https://img.shields.io/badge/Python-3.14.2-blue?style=flat-square)
-![Clopen](https://img.shields.io/badge/version-0.1.6-orange?style=flat-square)
+![Clopen](https://img.shields.io/badge/version-0.1.7-orange?style=flat-square)
 
 # Clopen
 programming language

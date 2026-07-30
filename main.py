@@ -7,7 +7,7 @@ import difflib
 from errors import ClopenFileError
 import debbuger_clo
 
-VERSION = "0.1.6"
+VERSION = "0.1.7"
 PYTHON_VERSION = "3.14.2"
 STATUS = "beta"
 
