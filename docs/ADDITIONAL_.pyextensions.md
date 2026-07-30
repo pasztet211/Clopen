@@ -1,5 +1,7 @@
 [Clopen Code Guide](../README.md)
 
+[More info](https://pasztet211.github.io/Clopen/stdlib.html)
+
 # .py extensions
 
 ## List of Extensions:
