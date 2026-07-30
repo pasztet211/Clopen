@@ -7,6 +7,8 @@ def get_time(args, local_variables):
         ms = (time.perf_counter_ns() - _start) // 1_000
     elif args[0] == "seconds":
         ms = (time.perf_counter_ns() - _start) // 1_000_000_000
+    elif args[0] == "nanoseconds":
+        ms = (time.perf_counter_ns() - _start)
     else:
         ms = (time.perf_counter_ns() - _start) // 1_000_000
     local_variables["__return__"] = [str(ms), "int"]
