@@ -51,9 +51,14 @@ def read_block(program, i):
     block = []
     depth = 1
 
-    while i < len(program):
+    program_no_line = [
+        " ".join(line.split()[:-1])
+        for line in program
+    ]
 
-        line = program[i].strip()
+    while i < len(program_no_line):
+
+        line = program_no_line[i].strip()
 
         if "{" in line:
             depth += 1

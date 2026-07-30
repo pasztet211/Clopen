@@ -1,32 +1,35 @@
 def run_debug_vars(run, program, definitions):
     defined = definitions.copy()
+
     for line in program:
-        parts = line["parts"]
-        if parts[0] == "let":
+        before = {k: v.copy() if isinstance(v, list) else v
+                  for k, v in defined.items()}
+
+        try:
+            defined = run([line], defined)
+        except Exception as e:
+            instruction = " ".join(line["parts"])
             print(
-                f"created {parts[1]} "
-                f"with value '{parts[2]} {parts[3]}'"
+                f"[Line {line['line']}] error at '{instruction}' "
+                f"{type(e).__name__}: {e}"
             )
-            defined = run([line], defined)
+            continue
 
-        if parts[0] == "update":
-            name = parts[1]
-            old = defined.get(name, [None])[0]
+        # New variables
+        for name in defined:
+            if defined[name][1] == "fn":
+                continue
+            if name not in before:
+                print(f"+ {name}: {defined[name][0]} ({defined[name][1]})")
 
-            defined = run([line], defined)
+        # Modified variables
+        for name in before:
+            if name in defined and before[name] != defined[name]:
+                print(f"~ {name}: {before[name][0]} -> {defined[name][0]}")
 
-            new = defined.get(name, [None])[0]
-            print(f"{name}: {old} -> {new}")
-
-        else:
-            try:
-                defined = run([line], defined)
-            except Exception as e:
-                instruction = "".join(part + " " for part in line["parts"]).strip()
-                
-                print(
-                    f"[Line {line["line"]}] error at '{instruction}' "
-                    f"{type(e).__name__}: {e} "
-                )
+        # Deleted variables
+        for name in before:
+            if name not in defined:
+                print(f"- {name}")
 
     return defined

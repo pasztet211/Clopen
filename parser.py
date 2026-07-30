@@ -11,6 +11,7 @@ def parse(program):
     while i < len(program):
 
         line = program[i].strip()
+        #print(program)
 
         if line.startswith("log "):
             parts = split_line(line)
@@ -21,6 +22,7 @@ def parse(program):
 
         line_nr = int(parts[-1])
         parts.pop(-1)
+
         if parts[0] == "if":
 
             branches = []
