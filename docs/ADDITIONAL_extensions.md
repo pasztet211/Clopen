@@ -1,4 +1,5 @@
 [Clopen Code Guide](../README.md)
+
 [More info](https://pasztet211.github.io/Clopen/extensions.html)
 
 # Guide to making a .py extension for Clopen
