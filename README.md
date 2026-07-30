@@ -40,6 +40,9 @@ clopen -h <optional command>
 
 clopen --version <optional topic>
 clopen -v <optional topic>
+
+clopen --debug <optional mode>
+clopen -d <optional mode>
 ```
 
 ## Example code
@@ -124,5 +127,5 @@ integer: [typed value]
 # Made by:
 - [pasztet211](https://github.com/pasztet211) ![pasztet](https://img.shields.io/badge/creator-orange?style=flat-square)
 
-[^first]: Replace **<optional command/topic>** with the name of a command or topic. Examples: `let`, `fn`, or a version information category.
+[^first]: Replace **<optional command/topic/mode>** with the name of a command, topic or mode. Examples: `let`, `fn`, `status` or `--basic`.
 [^second]: [Additional Extension Creation Guide](/pasztet211/Clopen/blob/main/docs/ADDITIONAL_extensions.md), [Standard Python Extension Guide](/pasztet211/Clopen/blob/main/docs/ADDITIONAL_.pyextensions.md)
