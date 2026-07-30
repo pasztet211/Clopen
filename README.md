@@ -1,4 +1,4 @@
-![Python](https://img.shields.io/badge/Python-3.14.2-blue?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3.14+-blue?style=flat-square)
 ![Clopen](https://img.shields.io/badge/version-0.1.7-orange?style=flat-square)
 
 # Clopen
@@ -6,6 +6,27 @@ programming language
 
 it is very simple by design
 
+Read the full documentation: [Clopen Documentation](https://pasztet211.github.io/Clopen/)
+
+## Quick Start
+
+Create a file called `hello.clo`:
+
+```clo
+log "Hello, World!"
+```
+
+Run it:
+```bash
+clopen hello.clo
+```
+
+Output:
+```text
+Hello, World!
+```
+
+Not installed yet? See the [Installation Guide](https://pasztet211.github.io/Clopen/installation.html).
 
 ## Features
 
@@ -77,7 +98,7 @@ integer: [typed value]
 | str   | "hi"  |
 | list  | [1,2] |  
 
-**Note:** Lists are not guaranteed to be complete or error-free. Some entries may cause unexpected behavior or crashes.
+**Note:** Lists are currently a beta feature. Some edge cases may cause unexpected behavior.
 
 ## Commands: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
@@ -93,7 +114,7 @@ integer: [typed value]
 - `get` eg. `get guess "guess: "`
 - `log` eg. `log "\n"`
 
-### Stoping: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
+### Stopping: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
 - `halt` eg. `halt`
 - `shalt` eg. `shalt`
@@ -133,4 +154,4 @@ Clopen is licensed under the GNU General Public License v3.0.
 See [LICENSE.md](LICENSE.md) for details.
 
 [^first]: Replace **<optional command/topic/mode>** with the name of a command, topic or mode. Examples: `let`, `fn`, `status` or `--basic`.
-[^second]: [Additional Extension Creation Guide](/pasztet211/Clopen/blob/main/docs/ADDITIONAL_extensions.md), [Standard Python Extension Guide](/pasztet211/Clopen/blob/main/docs/ADDITIONAL_.pyextensions.md)
+[^second]: [Additional Extension Creation Guide](https://github.com/pasztet211/Clopen/blob/main/docs/ADDITIONAL_extensions.md), [Standard Python Extension Guide](https://github.com/pasztet211/Clopen/blob/main/docs/ADDITIONAL_.pyextensions.md)
