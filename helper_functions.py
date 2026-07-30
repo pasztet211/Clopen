@@ -46,7 +46,7 @@ def get_index_name(name):
     except ValueError:
         raise ClopenValueError(f"[Line {Error_line}] Cannnot use value: {index} as list index")
 
-def read_block(program, i):
+def read_block(program, i, line):
 
     block = []
     depth = 1
@@ -72,7 +72,7 @@ def read_block(program, i):
         block.append(program[i])
         i += 1
 
-    raise ClopenSyntaxError(f"[Line {Error_line}] Missing closing brace")
+    raise ClopenSyntaxError(f"[Line {line}] Statement missing closing brace")
 
 def parse_literal(value):
 

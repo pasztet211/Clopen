@@ -28,7 +28,7 @@ def parse(program):
 
             condition = get_condition(parts)
 
-            block, i = read_block(program, i + 1)
+            block, i = read_block(program, i + 1, line_nr)
                 
             branches.append({
                 "condition": condition,
@@ -51,7 +51,7 @@ def parse(program):
 
                     condition = get_condition(next_parts)
 
-                    block, i = read_block(program, i + 1)
+                    block, i = read_block(program, i + 1, line_nr)
 
                     branches.append({
                         "condition": condition,
@@ -64,7 +64,7 @@ def parse(program):
 
                 elif next_parts[0] == "else":
 
-                    block, i = read_block(program, i + 1)
+                    block, i = read_block(program, i + 1, line_nr)
 
                     else_block = parse(block)
                     i += 1
@@ -86,7 +86,7 @@ def parse(program):
 
             condition = get_condition(parts)
 
-            block, i = read_block(program, i + 1)
+            block, i = read_block(program, i + 1, line_nr)
 
             instructions.append({
                 "type": "while",
@@ -102,7 +102,7 @@ def parse(program):
             condition = data[1].strip()
             update = ["update"] + shlex.split(data[2].strip())
 
-            block, i = read_block(program, i + 1)
+            block, i = read_block(program, i + 1, line_nr)
 
             instructions.append({
                 "type": "for",
@@ -118,7 +118,7 @@ def parse(program):
 
             inputs = get_condition(parts,2).split(",")
 
-            block, i = read_block(program, i + 1)
+            block, i = read_block(program, i + 1, line_nr)
 
             instructions.append({
                 "type": "fn",
