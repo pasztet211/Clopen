@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clopen Extensions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <nav class="top-bar">
+        <a href="index.html">Home</a>
+        <a href="installation.html">Installation</a>
+        <a href="syntax.html">Syntax</a>
+        <a href="commands.html">Commands</a>
+        <a href="extensions.html">Extensions</a>
+        <a href="stdlib.html">Standard Library</a>
+        <a href="debugger.html">Debugger</a>
+        <a href="errors.html">Errors</a>
+    </nav>
+
+    <header>
+        <h1>Creating Clopen Extensions</h1>
+    </header>
+
+    <main>
+        <h2>Recommendations</h2>
+
+        <ul>
+            <li>
+                <p>
+                    A <code>.clo</code> file should preferably contain only
+                    functions and variable definitions at the non-function level.
+                </p>
+            </li>
+        </ul>
+
+        <p>No:</p>
+
+        <pre><code>
+let x 0 int
+update x += 2
+
+for (i 0 int;i != 6; i += 1) {
+    log x
+}
+        </code></pre>
+
+
+        <p>Yes:</p>
+
+        <pre><code>
+let x 0 int
+
+fn update_n_print(x) {
+    update x += 2
+
+    for (i 0 int;i != 6; i += 1) {
+        log x
+    }
+}
+        </code></pre>
+
+
+        <p>
+            Keeping executable code inside functions prevents unexpected
+            behavior when the extension is imported.
+        </p>
+
+
+        <h2>Creating Functions</h2>
+
+        <p>
+            Extensions should expose functionality through functions.
+            This allows other Clopen files to import and use them safely.
+        </p>
+
+        <pre><code>
+fn hello() {
+    log "Hello from extension"
+}
+        </code></pre>
+
+        <h2>Recomended file order</h2>
+        <ul>
+            <li>
+                <p>
+                    Its recomended to put variables you want to be used by the file importing
+                    the extension at the beggining of a file and functions right after
+                </p>
+            </li>
+        </ul>
+
+        <p>File example:</p>
+
+        <pre><code>
+let PI 3.14159265359 float
+let e 2.71828182846 float
+
+fn sin(angle) {
+    # code
+}
+        </code></pre>
+    </main>
+
+</body>
+</html>
