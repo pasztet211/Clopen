@@ -4,7 +4,7 @@ from helper_functions import *
 def update(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
     if is_imported(name):
-        raise ClopenReadonlyError("cannot modify imported value")
+        raise ClopenReadonlyError(f"[Line {Error_line}] cannot modify imported value")
     operator = parts[2]
     value = parts[3]
 
@@ -15,7 +15,7 @@ def update(parts, definitions, additional_definitions=None, inputs=None):
         try:
             index = str(int(index))
         except ValueError:
-            raise ClopenValueError(f"Cannot use value: {index} as list index")
+            raise ClopenValueError(f"[Line {Error_line}] Cannot use value: {index} as list index")
 
     target, name, index = get_target(
         name,

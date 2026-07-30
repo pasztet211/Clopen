@@ -1,7 +1,7 @@
 import os
 import importlib.util
 
-from errors import ClopenNoFileError
+from errors import ClopenNoFileError, Error_line
 from clo_loader import load_clo
 from parser import parse
 
@@ -9,14 +9,14 @@ def load_py(path, name):
     spec = importlib.util.spec_from_file_location(name, path)
 
     if spec is None or spec.loader is None:
-        raise ClopenNoFileError(f"Could not load Python module '{name}'.")
+        raise ClopenNoFileError(f"[Line {Error_line}] Could not load Python module '{name}'.")
 
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
     if not hasattr(module, "definitions"):
         raise ClopenNoFileError(
-            f"Python module '{name}' does not have a definitions dictionary."
+            f"[Line {Error_line}] Python module '{name}' does not have a definitions dictionary."
         )
 
     return module.definitions
@@ -32,7 +32,7 @@ def cmd_with(parts, definitions, run, additional_definitions=None):
         inputs = parts[3:]
 
     if filename.endswith(".clo") or filename.endswith(".py"):
-        raise ClopenNoFileError("File extension is not allowed for import.")
+        raise ClopenNoFileError(f"[Line {Error_line}] File extension is not allowed for import.")
 
     if command is not None and command == "from":
         base_name = inputs[0]
@@ -54,7 +54,7 @@ def cmd_with(parts, definitions, run, additional_definitions=None):
         module_path = clo_path
 
     else:
-        raise ClopenNoFileError(f"Module '{base_name}' does not exist.")
+        raise ClopenNoFileError(f"[Line {Error_line}] Module '{base_name}' does not exist.")
 
     if module_type == "py":
         definitions_imp = load_py(module_path, base_name)

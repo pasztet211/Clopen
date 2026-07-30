@@ -32,10 +32,10 @@ def let(parts, definitions, additional_definitions=None, inputs=None):
         value = parts[2]
         _type = parts[3].rstrip(";")
     except IndexError:
-        raise ClopenSyntaxError("Invalid let statement: " + " ".join(parts))
+        raise ClopenSyntaxError(f"[Line {Error_line}] Invalid let statement: " + " ".join(parts))
 
     if not is_valid_name(name):
-        raise ClopenNameError("Invalid variable name: " + name)
+        raise ClopenNameError(f"[Line {Error_line}] Invalid variable name: " + name)
 
     # Convert value
     if _type == "int":
@@ -50,7 +50,7 @@ def let(parts, definitions, additional_definitions=None, inputs=None):
         elif value == "false":
             value = False
         else:
-            raise ClopenValueError("Invalid bool value: " + value)
+            raise ClopenValueError(f"[Line {Error_line}] Invalid bool value: " + value)
 
     elif _type == "str":
         pass
@@ -66,14 +66,14 @@ def let(parts, definitions, additional_definitions=None, inputs=None):
 
     # Inputs cannot be overwritten
     if inputs is not None and name in inputs:
-        raise ClopenValueError("Cannot overwrite function input: " + name)
+        raise ClopenValueError(f"[Line {Error_line}] Cannot overwrite function input: " + name)
 
 
     # Function local variable
     if additional_definitions is not None:
 
         if name in additional_definitions:
-            raise ClopenNameError("Variable already exists: " + name)
+            raise ClopenNameError(f"[Line {Error_line}] Variable already exists: " + name)
 
         additional_definitions[name] = [value, _type]
         return
@@ -81,7 +81,7 @@ def let(parts, definitions, additional_definitions=None, inputs=None):
 
     # Global variable
     if name in definitions:
-        raise ClopenNameError("Variable already exists: " + name)
+        raise ClopenNameError(f"[Line {Error_line}] Variable already exists: " + name)
 
     definitions[name] = [value, _type]
 

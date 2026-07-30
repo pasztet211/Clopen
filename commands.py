@@ -20,7 +20,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
                 _type = inputs[name][1]
                 value = inputs[name][0]
         except Exception:
-            raise ClopenNameError("Variable does not exist: " + name.lstrip("$"))
+            raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name.lstrip("$"))
     elif additional_definitions is not None and name in additional_definitions:
         try:
             if name.startswith("$"):
@@ -30,7 +30,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
                 _type = additional_definitions[name][1]
                 value = additional_definitions[name][0]
         except Exception:
-            raise ClopenNameError("Variable does not exist: " + name.lstrip("$"))
+            raise ClopenNameError(f"[Line {Error_line}] ariable does not exist: " + name.lstrip("$"))
     else:
         try:
             if name.startswith("$"):
@@ -40,7 +40,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
                 _type = definitions[name][1]
                 value = definitions[name][0]
         except Exception:
-            raise ClopenNameError("Variable does not exist: " + name.lstrip("$"))
+            raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name.lstrip("$"))
     
     if "[" in name and name.endswith("]"):
         print(get_index_value(name,definitions,additional_definitions,inputs))
@@ -90,7 +90,7 @@ def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
     index = None
 
     if is_imported(name):
-        raise ClopenReadonlyError("cannot modify imported value")
+        raise ClopenReadonlyError(f"[Line {Error_line}] cannot modify imported value")
 
     if "[" in name and name.endswith("]"):
         index, name = get_index_name(name)
@@ -105,7 +105,7 @@ def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
         target = definitions
 
     else:
-        raise ClopenNameError("Variable does not exist: " + name)
+        raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name)
 
 
     if _type == "bool":
@@ -134,7 +134,7 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
 
     name = parts[1]
     if is_imported(name):
-        raise ClopenReadonlyError("cannot modify imported value")
+        raise ClopenReadonlyError(f"[Line {Error_line}] cannot modify imported value")
     message = None
     if len(parts) == 3:
         message = parts[2]
@@ -143,7 +143,7 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
     target,name,index = get_target(name,definitions,additional_definitions,inputs)
         
     if name not in target and target is not None:
-        raise ClopenNameError("Variable does not exist: " + name)
+        raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name)
 
     if message != None:
         value = input(message)
@@ -167,7 +167,7 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
         elif value == "false":
             value = False
         else:
-            raise ClopenValueError("Invalid bool value")
+            raise ClopenValueError(f"[Line {Error_line}] Invalid bool value")
         
     if index is None and target is not None:
         target[name][0] = value
@@ -207,11 +207,11 @@ def cmd_return(parts, definitions, additional_definitions=None, inputs=None):
 def cmd_del(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
     if is_imported(name):
-        raise ClopenReadonlyError("cannot delete imported value")
+        raise ClopenReadonlyError(f"[Line {Error_line}] cannot delete imported value")
 
     # inputs cannot be deleted
     if inputs is not None and name in inputs:
-        raise ClopenValueError("Cannot delete function input: " + name)
+        raise ClopenValueError(f"[Line {Error_line}] Cannot delete function input: " + name)
 
     # locals first
     if additional_definitions is not None and name in additional_definitions:
@@ -223,24 +223,24 @@ def cmd_del(parts, definitions, additional_definitions=None, inputs=None):
         del definitions[name]
         return
 
-    raise ClopenNameError("Variable does not exist: " + name)
+    raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name)
 
 def cmd_shalt(in_loop):
     if in_loop:
         return True
     else:
-        raise ClopenRuntimeError("Cannot shalt outside of a loop")
+        raise ClopenRuntimeError(f"[Line {Error_line}] Cannot shalt outside of a loop")
 
 def cmd_to_add(parts,definitions,additional_definitions=None):
     number = None
     what_add = parts[1]
     what_add_type = parts[2]
     if parts[3] != "to":
-        raise ClopenSyntaxError("Expected 'to' before insert location")
+        raise ClopenSyntaxError(f"[Line {Error_line}] Expected 'to' before insert location")
     where_add = parts[4]
     list_ = parts[5]
     if is_imported(list_):
-        raise ClopenReadonlyError("cannot modify imported value")
+        raise ClopenReadonlyError(f"[Line {Error_line}] cannot modify imported value")
     target = get_target_nl(list_,definitions,additional_definitions)
     print(parts)
     print(where_add)
@@ -248,14 +248,14 @@ def cmd_to_add(parts,definitions,additional_definitions=None):
         try:
             number = int(where_add.removeprefix("index-"))
         except ValueError:
-            raise ClopenValueError("Invalid insert index")
+            raise ClopenValueError(f"[Line {Error_line}] Invalid insert index")
         where_add = "index"
     print(number)
 
     target_list = target[list_][0]
 
     if number != None and number > len(target_list):
-        raise ClopenValueError("Insert index out of range")
+        raise ClopenValueError(f"[Line {Error_line}] Insert index out of range")
 
     if where_add == "end-of":
         if not target_list:

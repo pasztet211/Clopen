@@ -24,3 +24,5 @@ class ClopenTypeError(Exception):
 
 class ClopenReadonlyError(Exception):
     pass
+
+Error_line = 0

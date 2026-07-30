@@ -1,6 +1,5 @@
 import shlex
 from commands import read_block
-import time
 
 def parse(program):
 

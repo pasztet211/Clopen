@@ -13,7 +13,7 @@ def get_index_value(name, definitions, additional_definitions=None, inputs=None)
         target = definitions
 
     else:
-        raise ClopenNameError("Variable does not exist: " + name_)
+        raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name_)
 
     index = str(int(index))
 
@@ -32,7 +32,7 @@ def get_index_val_typ(name, definitions, additional_definitions=None, inputs=Non
         target = definitions
 
     else:
-        raise ClopenNameError("Variable does not exist: " + name_)
+        raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name_)
 
     index = str(int(index))
 
@@ -44,7 +44,7 @@ def get_index_name(name):
     try:
         return int(index), name_
     except ValueError:
-        raise ClopenValueError(f"Cannnot use value: {index} as list index")
+        raise ClopenValueError(f"[Line {Error_line}] Cannnot use value: {index} as list index")
 
 def read_block(program, i):
 
@@ -72,7 +72,7 @@ def read_block(program, i):
         block.append(program[i])
         i += 1
 
-    raise ClopenSyntaxError("Missing closing brace")
+    raise ClopenSyntaxError(f"[Line {Error_line}] Missing closing brace")
 
 def parse_literal(value):
 
@@ -174,7 +174,7 @@ def eval_bool(expression, definitions, additional_definitions=None, inputs=None)
             elif op == "<":
                 return left < right
 
-    raise ClopenSyntaxError("Invalid bool expression: " + expression)
+    raise ClopenSyntaxError(f"[Line {Error_line}] Invalid bool expression: " + expression)
 
 
 def get_value(value,definitions, additional_definitions=None, inputs=None):
@@ -234,7 +234,7 @@ def eval_expr(expression, definitions, additional_definitions=None, inputs=None)
         return eval(expression, {"__builtins__": {}}, variables)
 
     except Exception:
-        raise ClopenSyntaxError("Invalid expression: " + expression)
+        raise ClopenSyntaxError(f"[Line {Error_line}] Invalid expression: " + expression)
 
     
 def get_var_from_definitions(name, definitions, additional_definitions=None, inputs=None):
@@ -248,7 +248,7 @@ def get_var_from_definitions(name, definitions, additional_definitions=None, inp
         return definitions[name][0]
 
     else:
-        raise ClopenNameError("Variable does not exist: " + name)
+        raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name)
 
 def get_target(name, definitions, additional_definitions=None, inputs=None):
     index = None
@@ -258,7 +258,7 @@ def get_target(name, definitions, additional_definitions=None, inputs=None):
         try:
             index = str(int(index))
         except ValueError:
-            raise ClopenValueError(f"Cannot use value: {index} as list index")
+            raise ClopenValueError(f"[Line {Error_line}] Cannot use value: {index} as list index")
 
     if inputs is not None and name in inputs:
         target = inputs
@@ -267,7 +267,7 @@ def get_target(name, definitions, additional_definitions=None, inputs=None):
     elif name in definitions:
         target = definitions
     else:
-        raise ClopenNameError("Variable does not exist: " + name)
+        raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name)
 
     return target, name, index
 
@@ -279,7 +279,7 @@ def get_target_nl(name, definitions, additional_definitions=None, inputs=None):
     elif name in definitions:
         target = definitions
     else:
-        raise ClopenNameError("Variable does not exist: " + name)
+        raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name)
 
     return target
 def get_value_type(container, name, index=None):
@@ -333,7 +333,7 @@ def handle_lists(expression, definitions, additional_definitions=None, inputs=No
 
                     elif name in expression:
                         raise ClopenTypeError(
-                            "Cannot use list without an index: " + name
+                            f"[Line {Error_line}] Cannot use list without an index: " + name
                         )
 
             if replaced:

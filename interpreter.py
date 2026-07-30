@@ -1,5 +1,6 @@
 from commands import *
 from commands_long.with_ import cmd_with
+import errors
 
 in_loop = False
 shalted = False
@@ -8,6 +9,7 @@ def run(program,definitions,additional_definitions=None,inputs=None):
     global in_loop, shalted
 
     for instruction in program:
+        errors.Error_line = instruction["line"]
         if ("__return__" in additional_definitions if additional_definitions is not None else False):
             return
         if "__HALTED__" in definitions:
@@ -35,7 +37,7 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     
                     if output and result is not None:
                         if is_imported(output):
-                            raise ClopenReadonlyError("cannot modify imported value")
+                            raise ClopenReadonlyError(f"[line {instruction["line"]}] cannot modify imported value")
                         if output in additional_definitions:
                             additional_definitions[output] = [
                                 result,
@@ -63,7 +65,7 @@ def run(program,definitions,additional_definitions=None,inputs=None):
 
                     if output and result is not None:
                         if is_imported(output):
-                            raise ClopenReadonlyError("cannot modify imported value")
+                            raise ClopenReadonlyError(f"[line {instruction["line"]}] cannot modify imported value")
                         definitions[output] = [
                             result,
                             _type
