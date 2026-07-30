@@ -1,4 +1,4 @@
-def run_debug_vars(run, program, definitions):
+def run_debug_vars(run, program, definitions, print_errors=True):
     defined = definitions.copy()
 
     for line in program:
@@ -8,12 +8,15 @@ def run_debug_vars(run, program, definitions):
         try:
             defined = run([line], defined)
         except Exception as e:
-            instruction = " ".join(line["parts"])
-            print(
-                f"[Line {line['line']}] error at '{instruction}' "
-                f"{type(e).__name__}: {e}"
-            )
-            continue
+            if print_errors:
+                instruction = " ".join(line["parts"])
+                print(
+                    f"[Line {line['line']}] error at '{instruction}' "
+                    f"{type(e).__name__}: {e}"
+                )
+                continue
+            else:
+                continue
 
         # New variables
         for name in defined:

@@ -106,7 +106,7 @@ elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
 if sys.argv[1] == "--debug" or sys.argv[1] == "-d":
     if len(sys.argv) > 2 and sys.argv[2] == "--basic":
         if len(sys.argv) < 4:
-            raise ClopenFileError("File must have .clo extension")
+            raise ClopenFileError("Must have file parameter")
         filename = sys.argv[3]
 
         if not filename.endswith(".clo"):
@@ -118,10 +118,11 @@ if sys.argv[1] == "--debug" or sys.argv[1] == "-d":
         
         instructions = parse(program)
         #print(instructions)
-        debbuger_clo.run_debug_basic(run, instructions, definitions)
+        debbuger_clo.run_debug_basic(run, instructions, definitions, False)
+        exit()
     elif len(sys.argv) > 2 and sys.argv[2] == "--vars":
         if len(sys.argv) < 4:
-            raise ClopenFileError("File must have .clo extension")
+            raise ClopenFileError("Must have file parameter")
         filename = sys.argv[3]
         
         if not filename.endswith(".clo"):
@@ -134,21 +135,23 @@ if sys.argv[1] == "--debug" or sys.argv[1] == "-d":
         instructions = parse(program)
         #print(instructions)
         debbuger_clo.run_debug_vars(run, instructions, definitions)
+        exit()
     else:
         if len(sys.argv) < 3:
-            raise ClopenFileError("File must have .clo extension")
+            raise ClopenFileError("Must have file parameter")
         filename = sys.argv[2]
 
-    if not filename.endswith(".clo"):
-        raise ClopenFileError("File must have .clo extension")
+        if not filename.endswith(".clo"):
+            raise ClopenFileError("File must have .clo extension")
 
-    definitions = {}
-    
-    program = load_clo(filename)
-    
-    instructions = parse(program)
-    #print(instructions)
-    #debbuger_clo.run_debug_basic(run, instructions, definitions)
+        definitions = {}
+        
+        program = load_clo(filename)
+        
+        instructions = parse(program)
+        #print(instructions)
+        debbuger_clo.debug(run, instructions)
+        exit()
 else:
     filename = sys.argv[1]
  
