@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clopen Extensions</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<nav class="top-bar">
+    <a href="index.html">Home</a>
+    <a href="installation.html">Installation</a>
+    <a href="syntax.html">Syntax</a>
+    <a href="commands.html">Commands</a>
+    <a href="extensions.html">Extensions</a>
+    <a href="stdlib.html">Standard Library</a>
+    <a href="debugger.html">Debugger</a>
+    <a href="errors.html">Errors</a>
+</nav>
+<body>
+	<header>
+		<h1>Extensions</h1>
+	</header>
+    <main>
+        <h2>Extensions</h2>
+
+        <p>
+            Clopen supports extensions that add new functionality to the language.
+            Extensions can be written in Clopen or Python.
+        </p>
+
+
+        <h2>Importing Extensions</h2>
+
+        <p>
+            Extensions are imported using <code>with</code>.
+        </p>
+
+        <pre><code>with time as t</code></pre>
+
+        <p>
+            The <code>as</code> keyword creates an alias for the extension.
+        </p>
+
+
+        <h2>Python Extensions</h2>
+
+        <p>
+            Python extensions allow developers to create native Clopen functions.
+        </p>
+
+        <pre><code>with randint from random
+
+    randint number 1 10</code></pre>
+
+        <p>
+            Python extensions provide functions through a
+            <code>definitions</code> dictionary.
+        </p>
+
+
+        <h2>Creating an Extension</h2>
+
+        <p>
+            A Python extension file must contain a
+            <code>definitions</code> dictionary.
+        </p>
+
+        <pre><code>definitions = {
+        "example": [
+            {
+                "type": "fn",
+                "name": "example",
+                "inputs": [],
+                "native": True,
+                "function": example
+            },
+            "fn"
+        ]
+    }</code></pre>
+
+
+        <h2>Clopen Extensions</h2>
+
+        <p>
+            Extensions can also be written using Clopen code.
+        </p>
+
+        <pre><code>
+    let value 10 int
+    log value
+        </code></pre>
+
+
+        <h2>Available Extensions</h2>
+
+        <ul>
+            <li><code>time</code> - timers and sleeping</li>
+            <li><code>random</code> - random numbers and choices</li>
+        </ul>
+
+
+        <h2>Extension Guides</h2>
+
+        <ul>
+            <li>
+                <a href="ADDITIONAL_extensions.html">
+                    Creating Clopen extensions
+                </a>
+            </li>
+            <li>
+                <a href="ADDITIONAL_.pyextensions.html">
+                    Creating Python extensions
+                </a>
+            </li>
+        </ul>
+
+    </main>
+</body>
+</html>
