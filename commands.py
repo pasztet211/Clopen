@@ -11,6 +11,12 @@ def cmd_update(parts,definitions,additional_definitions=None,inputs=None):
 
 def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
     name = parts[1]
+    if name.startswith("\"") and name.endswith("\""):
+        if not name[1:-1] == '\\n':
+            print(name[1:-1])
+        else:
+            print()
+        return
     if inputs is not None and name in inputs:
         try:
             if name.startswith("$"):
@@ -149,6 +155,9 @@ def cmd_get(parts,definitions,additional_definitions=None,inputs=None):
         value = input(message)
     else:
         value = input("> ")
+
+    if value == "":
+        raise ClopenUnknownError("No Input")
 
     if index is None and target is not None:
         _type = target[name][1]

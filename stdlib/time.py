@@ -22,7 +22,7 @@ definitions = {
         {
             "type": "fn",
             "name": "time",
-            "inputs": [],
+            "inputs": ["type"],
             "native": True,
             "function": get_time
         },
@@ -32,7 +32,7 @@ definitions = {
         {
             "type": "fn",
             "name": "sleep",
-            "inputs": [],
+            "inputs": ["miliseconds"],
             "native": True,
             "function": sleep
         },

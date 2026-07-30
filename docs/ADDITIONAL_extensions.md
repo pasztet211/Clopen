@@ -38,7 +38,7 @@ def function_object(args,local_variables):
     {
         "type": "fn",
         "name": "used_name",
-        "inputs": [],
+        "inputs": [inputs],
         "native": True,
         "function": function_object
     },

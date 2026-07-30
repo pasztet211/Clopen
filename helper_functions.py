@@ -75,6 +75,8 @@ def read_block(program, i, line):
     raise ClopenSyntaxError(f"[Line {line}] Statement missing closing brace")
 
 def parse_literal(value):
+    if value.startswith("[") and value.endswith("]"):
+        return parse_list(value)
 
     if value == "true":
         return True
@@ -346,3 +348,22 @@ def handle_lists(expression, definitions, additional_definitions=None, inputs=No
 
 def is_imported(name):
     return "." in name
+
+def parse_list(value):
+    content = value[1:-1].strip()
+
+    if not content:
+        return {}
+
+    result = {}
+
+    for i, item in enumerate(content.split(",")):
+        item = item.strip()
+        parsed = parse_literal(item)
+
+        result[str(i)] = [
+            parsed,
+            type(parsed).__name__
+        ]
+
+    return result

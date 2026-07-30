@@ -205,20 +205,36 @@ def run(program,definitions,additional_definitions=None,inputs=None):
     return definitions
 
 def call_function(name, args, definitions, output=None):
-
-    local_definitions = {} #definitions.copy()
-    inputs = {}
-
     function = definitions[name][0]
     if function.get("native"):
         local_variables = {}
+        inputs = []
+        for input_name, value in zip(function["inputs"], args):
+            if value in definitions:
+                _type = definitions[value][1]
+                if _type == "list":
+                    value = [
+                        item[0]
+                        for _, item in sorted(definitions[value][0].items(), key=lambda x: int(x[0]))
+                    ]
+                else:
+                    value = definitions[value][0]
+            else:
+                value = parse_literal(value)
 
-        function["function"](args, local_variables)
+            inputs.append(
+                value
+            )
+
+        function["function"](inputs, local_variables)
 
         if "__return__" in local_variables:
             return local_variables["__return__"]
 
         return [None, None]
+
+    local_definitions = {} #definitions.copy()
+    inputs = {}
 
     for input_name, value in zip(function["inputs"], args):
         if value in definitions:
