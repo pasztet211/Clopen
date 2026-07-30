@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Library</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<nav class="top-bar">
+    <a href="index.html">Home</a>
+    <a href="installation.html">Installation</a>
+    <a href="syntax.html">Syntax</a>
+    <a href="commands.html">Commands</a>
+    <a href="extensions.html">Extensions</a>
+    <a href="stdlib.html">Standard Library</a>
+    <a href="debugger.html">Debugger</a>
+    <a href="errors.html">Errors</a>
+</nav>
+<body>
+    <header>
+        <h1>Clopen Standard Library</h1>
+    </header>
+
+    <main>
+
+        <h2>Overview</h2>
+        <p>
+            The Clopen standard library contains official extensions that add
+            extra functionality to the language.
+        </p>
+
+        <h2>Importing</h2>
+
+        <p>
+            Standard library modules are imported using <code>with</code>.
+        </p>
+
+        <pre><code>with random
+with time as t</code></pre>
+
+
+        <h2>Available Modules</h2>
+
+
+        <h3><code>random</code></h3>
+
+        <p>
+            Provides random number generation and random selection.
+        </p>
+
+        <h4><code>randint</code></h4>
+
+        <p>
+            Generates a random integer between two values.
+        </p>
+
+        <pre><code>with randint from random
+
+let number 0 int
+
+randint number 1 10
+
+log $number</code></pre>
+
+
+        <h4><code>choice</code></h4>
+
+        <p>
+            Selects a random value from a list.
+        </p>
+
+        <pre><code>with choice from random
+
+let values [1,"hello",true] list
+let output "" str
+
+choice output values
+
+log $output</code></pre>
+
+
+        <h3><code>time</code></h3>
+
+        <p>
+            Provides timing functions.
+        </p>
+
+        <h4><code>time</code></h4>
+
+        <p>
+            Stores the current timer value in a variable.
+        </p>
+
+        <pre><code>with time as t
+
+let elapsed 0 int
+
+t.time elapsed "seconds"
+
+log $elapsed</code></pre>
+
+
+        <h4><code>sleep</code></h4>
+
+        <p>
+            Pauses program execution.
+        </p>
+
+        <pre><code>t.sleep 1000</code></pre>
+
+
+        <h2>Future Modules</h2>
+
+        <p>
+            More standard library modules may be added in future versions.
+        </p>
+
+    </main>
+</body>
+</html>
