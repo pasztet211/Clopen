@@ -189,8 +189,10 @@ def get_value(value,definitions, additional_definitions=None, inputs=None):
 
     if "." in value:
         return float(value)
-
-    return int(value)
+    try:
+        return int(value)
+    except ValueError:
+        return(value)
 
 def get_val_typ(value,definitions, additional_definitions=None, inputs=None):
     if inputs is not None and value in inputs:

@@ -1,4 +1,4 @@
-![Python](https://img.shields.io/badge/Python-3.14+-blue?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3.13+-blue?style=flat-square)
 ![Clopen](https://img.shields.io/badge/version-0.1.7-orange?style=flat-square)
 
 # Clopen
