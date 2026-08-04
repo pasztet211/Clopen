@@ -127,6 +127,17 @@ def parse(program):
                 "block": parse(block),
                 "line": line_nr
             })
+        elif parts[0] == "cs":
+            name = parts[1]
+
+            block, i = read_block(program, i + 1, line_nr)
+
+            instructions.append({
+                "type": "cs",
+                "name": name,
+                "block": parse(block),
+                "line": line_nr
+            })
         else:
             instructions.append({
                 "type": "command",

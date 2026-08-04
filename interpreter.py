@@ -33,7 +33,7 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                     else:
                         args = parts[1:]
 
-                    result,_type = call_function(command, args, additional_definitions, inputs)
+                    result,_type = call_function(command, args, definitions, additional_definitions, inputs)
                     
                     if output and result is not None:
                         if is_imported(output):
@@ -50,6 +50,35 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                             ]
 
                     continue
+                else:
+                    if (command in definitions and definitions[command][1] == "fn"): #type: ignore
+                    
+                        output = None
+                    
+                        if len(parts) > 2:
+                            output = parts[1]
+                            args = parts[2:]
+                        else:
+                            args = parts[1:]
+                    
+                        result,_type = call_function(command, args, definitions, additional_definitions, inputs)
+                    
+                        if output and result is not None:
+                            if is_imported(output):
+                                raise ClopenReadonlyError(f"[line {instruction["line"]}] cannot modify imported value")
+                            if output in additional_definitions:
+                                additional_definitions[output] = [
+                                    result,
+                                    _type
+                                ]
+                            else:
+                                definitions[output] = [
+                                    result,
+                                    _type
+                                ]
+                            
+                    
+                        continue
             else:
                 if (command in definitions and definitions[command][1] == "fn"): #type: ignore
 
@@ -201,31 +230,53 @@ def run(program,definitions,additional_definitions=None,inputs=None):
                 },
                 "fn"
             ]
+        elif instruction["type"] == "cs":
+            definitions[instruction["name"]] = [
+                {"class_definitions":run(instruction["block"],definitions,additional_definitions,inputs)},
+                "cls"
+            ]
 
     return definitions
 
-def call_function(name, args, definitions, output=None):
+def call_function(name, args, definitions,additional_definitions=None,inputs_=None, output=None):
     function = definitions[name][0]
     if function.get("native"):
         local_variables = {}
         inputs = []
         for input_name, value in zip(function["inputs"], args):
+            if "[" in value and value.endswith("]"):
+                value = get_index_value(value,definitions,additional_definitions,inputs_)
+                inputs.append(
+                    value
+                )
+                continue
             if value in definitions:
                 _type = definitions[value][1]
+                value = definitions[value][0]
+
                 if _type == "list":
                     value = [
                         item[0]
                         for _, item in sorted(definitions[value][0].items(), key=lambda x: int(x[0]))
                     ]
+
+            elif additional_definitions is not None and value in additional_definitions:
+                _type = additional_definitions[value][1]
+                value = additional_definitions[value][0]
+
+                if _type == "list":
+                    value = [
+                        item[0]
+                        for _, item in sorted(additional_definitions[value][0].items(), key=lambda x: int(x[0]))
+                    ]
                 else:
-                    value = definitions[value][0]
+                    value = get_value(value,definitions,additional_definitions,inputs_)
             else:
                 value = parse_literal(value)
 
             inputs.append(
                 value
             )
-
         function["function"](inputs, local_variables)
 
         if "__return__" in local_variables:

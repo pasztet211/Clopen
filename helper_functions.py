@@ -15,7 +15,10 @@ def get_index_value(name, definitions, additional_definitions=None, inputs=None)
     else:
         raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name_)
 
-    index = str(int(index))
+    if index in definitions or (additional_definitions is not None and index in additional_definitions) or (inputs is not None and index in inputs):
+        index = str(get_value(index,definitions,additional_definitions,inputs))
+    else:
+        index = str(int(index))
 
     return target[name_][0][index][0]
 
@@ -101,16 +104,6 @@ def parse_literal(value):
 
 def eval_bool(expression, definitions, additional_definitions=None, inputs=None):
 
-    if "[" in expression and expression.endswith("]"):
-        expression = get_index_value(
-            expression,
-            definitions,
-            additional_definitions,
-            inputs
-        )
-
-        return expression
-
     if inputs is not None and expression in inputs:
         value = inputs[expression][0]
 
@@ -175,6 +168,13 @@ def eval_bool(expression, definitions, additional_definitions=None, inputs=None)
                 return left > right
             elif op == "<":
                 return left < right
+    if "[" in expression and expression.endswith("]"):
+        return get_index_value(
+            expression,
+            definitions,
+            additional_definitions,
+            inputs
+        )
 
     raise ClopenSyntaxError(f"[Line {Error_line}] Invalid bool expression: " + expression)
 

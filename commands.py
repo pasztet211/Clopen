@@ -17,6 +17,9 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
         else:
             print()
         return
+    if "[" in name and name.endswith("]"):
+        print(get_index_value(name,definitions,additional_definitions,inputs))
+        return
     if inputs is not None and name in inputs:
         try:
             if name.startswith("$"):
@@ -36,7 +39,7 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
                 _type = additional_definitions[name][1]
                 value = additional_definitions[name][0]
         except Exception:
-            raise ClopenNameError(f"[Line {Error_line}] ariable does not exist: " + name.lstrip("$"))
+            raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name.lstrip("$"))
     else:
         try:
             if name.startswith("$"):
@@ -47,47 +50,43 @@ def cmd_log(parts,definitions,additional_definitions=None,inputs=None):
                 value = definitions[name][0]
         except Exception:
             raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name.lstrip("$"))
-    
-    if "[" in name and name.endswith("]"):
-        print(get_index_value(name,definitions,additional_definitions,inputs))
-    else:
-        if name.startswith("\"") and name.endswith("\""):
-            if not name[1:-1] == '\\n':
-                print(name[1:-1])
-            else:
-                print()
-            return
-        
-        elif name.startswith("$"):
-            print(get_var_from_definitions(name[1:], definitions, additional_definitions, inputs))
-            return
-        elif _type == "list":
-            output = []
-
-            for index in sorted(value.keys(), key=int):
-                item, item_type = value[index]
-
-                if item_type == "bool":
-                    output.append("true" if item else "false")
-                else:
-                    output.append(str(item))
-
-            print("[" + ",".join(output) + "]")
+    if name.startswith("\"") and name.endswith("\""):
+        if not name[1:-1] == '\\n':
+            print(name[1:-1])
         else:
-            if inputs is not None and name in inputs:
-                print(inputs[name][0])
+            print()
+        return
+        
+    elif name.startswith("$"):
+        print(get_var_from_definitions(name[1:], definitions, additional_definitions, inputs))
+        return
+    elif _type == "list":
+        output = []
 
-            elif additional_definitions is not None and name in additional_definitions:
-                print(additional_definitions[name][0])
+        for index in sorted(value.keys(), key=int):
+            item, item_type = value[index]
 
-            elif name in definitions:
-                print(definitions[name][0])
-            
+            if item_type == "bool":
+                output.append("true" if item else "false")
             else:
-                if name == '\\n':
-                    print()
-                    return
-                print(name)
+                output.append(str(item))
+
+        print("[" + ",".join(output) + "]")
+    else:
+        if inputs is not None and name in inputs:
+            print(inputs[name][0])
+
+        elif additional_definitions is not None and name in additional_definitions:
+            print(additional_definitions[name][0])
+
+        elif name in definitions:
+            print(definitions[name][0])
+            
+        else:
+            if name == '\\n':
+                print()
+                return
+            print(name)
 
 def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
     name = parts[1]
@@ -113,21 +112,37 @@ def cmd_set(parts, definitions, additional_definitions=None, inputs=None):
     else:
         raise ClopenNameError(f"[Line {Error_line}] Variable does not exist: " + name)
 
+    if expression in definitions:
+        value = get_value(expression, definitions, additional_definitions, inputs)
 
-    if _type == "bool":
-        value = eval_bool(
-            expression,
-            definitions,
-            additional_definitions,
-            inputs
-        )
+    elif additional_definitions is not None and expression in additional_definitions:
+        value = get_value(expression, definitions, additional_definitions, inputs)
+
+    elif inputs is not None and expression in inputs:
+        value = get_value(expression, definitions, additional_definitions, inputs)
+
     else:
-        value = eval_expr(
-            expression,
-            definitions,
-            additional_definitions,
-            inputs
-        )
+        if "[" in expression and expression.endswith("]"):
+            value = get_index_value(
+                expression,
+                definitions,
+                additional_definitions,
+                inputs
+            )
+        elif _type == "bool":
+            value = eval_bool(
+                expression,
+                definitions,
+                additional_definitions,
+                inputs
+            )
+        else:
+            value = eval_expr(
+                expression,
+                definitions,
+                additional_definitions,
+                inputs
+            )
 
     if index is not None:
         target[name][0][str(index)][0] = value
