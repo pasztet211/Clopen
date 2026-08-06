@@ -108,6 +108,56 @@ log $elapsed</code></pre>
 
         <pre><code>t.sleep 1000</code></pre>
 
+        <h3><code>strings</code></h3>
+
+        <p>
+            Provides string manipulation functions.
+        </p>
+
+        <h4><code>get_char</code></h4>
+
+        <p>
+            Retrieves a character from a string at a specified index.
+        </p>
+
+        <pre><code>with strings as sr
+
+let string "Hello, World!" str
+let char "" str
+
+sr.get_char char string 7
+log $char
+        </code></pre>
+
+        <h4><code>length</code></h4>
+
+        <p>
+            Returns the length of a string.
+        </p>
+
+        <pre><code>with strings as sr
+
+let string "Hello, World!" str
+let len 0 int
+
+sr.length len string
+log $len
+        </code></pre>
+
+        <h4><code>replace_char</code></h4>
+
+        <p>
+            Replaces a character in a string at a specified index.
+        </p>
+
+        <pre><code>with strings as sr
+
+let string "Hello, World!" str
+let new_string "" str
+
+sr.replace_char new_string string 7 "!"
+log $new_string
+        </code></pre>
 
         <h2>Future Modules</h2>
 
