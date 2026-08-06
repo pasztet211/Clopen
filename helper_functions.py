@@ -369,3 +369,22 @@ def parse_list(value):
         ]
 
     return result
+
+def convert_list_to_syntax(value,definitions,additional_definitions=None,inputs=None):
+    content = value[1:-1].strip()
+
+    if not content:
+        return {}
+
+    result = {}
+
+    for i, item in enumerate(content.split(",")):
+        item = item.strip()
+        got_value = get_value(item,definitions,additional_definitions,inputs)
+
+        result[str(i)] = [
+            got_value,
+            type(got_value).__name__
+        ]
+
+    return [result,"list"]

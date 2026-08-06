@@ -13,6 +13,10 @@ def length(args, local_definitions):
 
     local_definitions["__return__"] = [str(result), "int"]
 
+def get_char(args, local_definitions):
+    result = args[0][int(args[1])]
+
+    local_definitions["__return__"] = [str(result), "str"]
 
 definitions = {
     "replace_char": [
@@ -32,6 +36,16 @@ definitions = {
             "inputs": ["text"],
             "native": True,
             "function": length
+        },
+        "fn"
+    ],
+    "get_char": [
+        {
+            "type": "fn",
+            "name": "get_char",
+            "inputs": ["text","pos"],
+            "native": True,
+            "function": get_char
         },
         "fn"
     ]

@@ -202,21 +202,27 @@ def cmd_return(parts, definitions, additional_definitions=None, inputs=None):
     value = parts[1]
 
     try:
-        value = eval_expr(
-            value,
-            definitions,
-            additional_definitions,
-            inputs
-        )
-        _type = type(value).__name__
-    except Exception: 
-        if "[" in value and value.endswith("]"): #type: ignore
-            value,_type = get_index_val_typ(
+        if not ("[" in value and value.endswith("]") or value.startswith("[")):
+            value = eval_expr(
                 value,
                 definitions,
                 additional_definitions,
                 inputs
             )
+            _type = type(value).__name__
+        else:
+            value,_type = convert_list_to_syntax(value,definitions,additional_definitions,inputs)
+    except Exception: 
+        if "[" in value and value.endswith("]"): #type: ignore
+            if not value.startswith("["): #type: ignore
+                value,_type = get_index_val_typ(
+                    value,
+                    definitions,
+                    additional_definitions,
+                    inputs
+                )
+            else:
+                value,_type = convert_list_to_syntax(value,definitions,additional_definitions,inputs)
         else:
             value,_type = get_val_typ(
                 value,
