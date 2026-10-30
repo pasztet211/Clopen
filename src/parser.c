@@ -570,75 +570,111 @@ static int parse_for(
     *second = '\0';
 
     Instruction instruction = {0};
+    Instruction init_tokens = {0};
+    Instruction update_tokens = {0};
+
     instruction.type = copy_string("for");
     instruction.line = program->lines[*index].line_number;
 
-    /* init */
-    Instruction init_tokens = {0};
-
-    if (tokenize(&init_tokens, data, 0)) {
+    if (!instruction.type) {
         free(data);
-        free(instruction.type);
         return 1;
+    }
+
+    /* init */
+    if (tokenize(&init_tokens, data, 0)) {
+        goto error;
     }
 
     instruction.init = init_tokens.parts;
     instruction.init_count = init_tokens.part_count;
+    init_tokens.parts = NULL;
 
     /* condition */
-    char *condition = second + 1;
+    char *condition = first + 1;
+
     while (isspace((unsigned char)*condition)) {
         condition++;
     }
 
     instruction.condition = copy_string(condition);
 
-    /* update */
-    Instruction update_tokens = {0};
+    if (!instruction.condition) {
+        goto error;
+    }
 
+    /* update */
     if (tokenize(&update_tokens, second + 1, 0)) {
-        free(data);
-        free(instruction.type);
-        free(instruction.condition);
-        for (size_t i = 0; i < instruction.init_count; i++)
-            free(instruction.init[i]);
-        free(instruction.init);
-        return 1;
+        goto error;
     }
 
     instruction.update = malloc(
-        (update_tokens.part_count + 1) * sizeof(char *)
+        (update_tokens.part_count + 1) * sizeof(*instruction.update)
     );
 
     if (!instruction.update) {
-        free(data);
-        free(instruction.type);
-        free(instruction.condition);
-        return 1;
+        goto error;
     }
 
     instruction.update[0] = copy_string("update");
+
+    if (!instruction.update[0]) {
+        goto error;
+    }
+
     instruction.update_count = update_tokens.part_count + 1;
 
     for (size_t i = 0; i < update_tokens.part_count; i++) {
         instruction.update[i + 1] = update_tokens.parts[i];
+        update_tokens.parts[i] = NULL;
     }
 
-    free(update_tokens.parts);
-    free(data);
-
     /* block */
+    free(data);
+    data = NULL;
+
+    (*index)++;
+
     instruction.block = parse_nested_block(program, index);
 
     if (!instruction.block) {
-        return 1;
+        goto error;
     }
 
     if (append_instruction(instructions, instruction)) {
-        return 1;
+        goto error;
     }
 
+    free(update_tokens.parts);
     return 0;
+
+error:
+    free(data);
+
+    free(instruction.type);
+    free(instruction.condition);
+
+    for (size_t i = 0; i < instruction.init_count; i++) {
+        free(instruction.init[i]);
+    }
+    free(instruction.init);
+
+    for (size_t i = 0; i < instruction.update_count; i++) {
+        free(instruction.update[i]);
+    }
+    free(instruction.update);
+
+    if (instruction.block) {
+        free_instructions(instruction.block);
+        free(instruction.block);
+    }
+
+    for (size_t i = 0; i < update_tokens.part_count; i++) {
+        free(update_tokens.parts[i]);
+    }
+    free(update_tokens.parts);
+
+    return 1;
 }
 
 static int parse_fn(
@@ -734,6 +770,8 @@ static int parse_fn(
     }
 
     free(inputs);
+
+    (*index)++;
 
     instruction.block = parse_nested_block(program, index);
 

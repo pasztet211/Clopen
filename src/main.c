@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "clo_loader.h"
 #include "parser.h"
 #include "interpreter.h"
+#include "helper_commands.h"
+
 
 static void print_instructions(const InstructionList *instructions, int depth)
 {
@@ -23,6 +26,42 @@ static void print_instructions(const InstructionList *instructions, int depth)
         }
 
         printf("\n");
+
+        if (strcmp(instruction->type, "for") == 0)
+        {
+            for (int j = 0; j < depth + 1; j++)
+                printf("    ");
+
+            printf("init:");
+            for (size_t j = 0; j < instruction->init_count; j++)
+                printf(" {%s}", instruction->init[j]);
+            printf("\n");
+
+            for (int j = 0; j < depth + 1; j++)
+                printf("    ");
+
+            printf("condition: %s\n", instruction->condition);
+
+            for (int j = 0; j < depth + 1; j++)
+                printf("    ");
+
+            printf("update:");
+            for (size_t j = 0; j < instruction->update_count; j++)
+                printf(" {%s}", instruction->update[j]);
+            printf("\n");
+
+            print_instructions(instruction->block, depth + 1);
+        }
+
+        if (strcmp(instruction->type, "while") == 0)
+        {
+            for (int j = 0; j < depth + 1; j++)
+                printf("    ");
+
+            printf("condition: %s\n", instruction->condition);
+
+            print_instructions(instruction->block, depth + 1);
+        }
 
         if (strcmp(instruction->type, "if") == 0)
         {
@@ -49,6 +88,7 @@ static void print_instructions(const InstructionList *instructions, int depth)
     }
 }
 
+
 int main(int argc, char *argv[])
 {
     if (argc < 2)
@@ -74,22 +114,41 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    //printf("parsed %zu instructions:\n\n", instructions.count);
+    printf("parsed %zu instructions:\n\n", instructions.count);
 
-    //print_instructions(&instructions, 0);
+    print_instructions(&instructions, 0);
 
-    VariableList variables = {0};
+    Scope *global_scope = create_scope(NULL);
+    FunctionList functions = {0};
 
-    if (execute_instructions(&instructions, &variables) != 0)
+    if (!global_scope)
     {
-        free_variables(&variables);
+        printf("error: could not create global scope\n");
         free_instructions(&instructions);
         free_clo(&program);
         return 1;
     }
 
-    free_variables(&variables);
+    ExecutionContext context = {
+        .scope = global_scope,
+        .functions = {0},
+        .in_function = 0,
+        .returned = 0,
+        .return_value = NULL,
+        .return_type = NULL
+    };
 
+    if (execute_instructions(&instructions, &context) != EXEC_OK)
+    {
+        release_scope(global_scope);
+        free(functions.items);
+        free_instructions(&instructions);
+        free_clo(&program);
+        return 1;
+    }
+
+    release_scope(global_scope);
+    free(functions.items);
     free_instructions(&instructions);
     free_clo(&program);
 

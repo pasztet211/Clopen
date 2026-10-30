@@ -62,6 +62,32 @@ static char *trim(char *str)
     return str;
 }
 
+static void strip_comments(char *line)
+{
+    int in_quotes = 0;
+
+    for (size_t i = 0; line[i] != '\0'; i++)
+    {
+        if (line[i] == '"')
+        {
+            in_quotes = !in_quotes;
+            continue;
+        }
+
+        if (!in_quotes && line[i] == '/' && line[i + 1] == '/')
+        {
+            line[i] = '\0';
+            break;
+        }
+
+        if (!in_quotes && line[i] == '#')
+        {
+            line[i] = '\0';
+            break;
+        }
+    }
+}
+
 int load_clo(const char *filename, CloProgram *program)
 {
     FILE *file = fopen(filename, "r");
@@ -81,10 +107,14 @@ int load_clo(const char *filename, CloProgram *program)
 
         char *line = trim(buffer);
 
-        if (*line == '\0' ||
-            *line == '#' ||
-            (line[0] == '/' && line[1] == '/'))
+        strip_comments(line);
+        line = trim(line);
+
+        if (*line == '\0')
+        {
+            free(buffer);
             continue;
+        }
 
         CloLine *new_lines = realloc(
             program->lines,
