@@ -1,4 +1,4 @@
-![Python](https://img.shields.io/badge/Python-3.13+-blue?style=flat-square)
+![C23](https://img.shields.io/badge/C-C23-blue?style=flat-square)
 ![Clopen](https://img.shields.io/badge/version-0.1.7-orange?style=flat-square)
 
 # Clopen
@@ -43,7 +43,6 @@ Not installed yet? See the [Installation Guide](https://pasztet211.github.io/Clo
 
 1. clone the repo to a C:\Clopen folder
 2. add C:\Clopen to **PATH**
-3. Install python and add it to **PATH**
 
 ## File Extension and running
 
@@ -139,7 +138,7 @@ integer: [typed value]
 ### Functions: ![works](https://img.shields.io/badge/status-stable-green?style=flat-square)
 
 - `fn` eg. `fn name (args) {}`
-- `return` eg. `return "value"`
+- `return` eg. `return value`
 
 ### Miscellanier: ![works](https://img.shields.io/badge/status-beta-yellow?style=flat-square)
 

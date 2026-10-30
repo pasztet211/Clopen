@@ -501,7 +501,8 @@ static int parse_while(
     const CloProgram *program,
     size_t *index,
     InstructionList *instructions
-) {
+)
+{
     const char *line = program->lines[*index].text;
 
     Instruction instruction = {0};
@@ -510,19 +511,27 @@ static int parse_while(
     instruction.line = program->lines[*index].line_number;
     instruction.condition = get_condition(line);
 
-    if (!instruction.condition) {
-        return 1;
-    }
-
-    instruction.block = parse_nested_block(program, index);
-
-    if (!instruction.block) {
+    if (!instruction.type || !instruction.condition)
+    {
         free(instruction.type);
         free(instruction.condition);
         return 1;
     }
 
-    if (append_instruction(instructions, instruction)) {
+    /* Move past the while header. */
+    (*index)++;
+
+    instruction.block = parse_nested_block(program, index);
+
+    if (!instruction.block)
+    {
+        free(instruction.type);
+        free(instruction.condition);
+        return 1;
+    }
+
+    if (append_instruction(instructions, instruction))
+    {
         free(instruction.type);
         free(instruction.condition);
         free_instructions(instruction.block);
@@ -769,6 +778,12 @@ void free_instructions(InstructionList *instructions)
         {
             free_instructions(instruction->else_block);
             free(instruction->else_block);
+        }
+
+        if (instruction->block)
+        {
+            free_instructions(instruction->block);
+            free(instruction->block);
         }
     }
 

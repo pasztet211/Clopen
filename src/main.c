@@ -3,6 +3,7 @@
 
 #include "clo_loader.h"
 #include "parser.h"
+#include "interpreter.h"
 
 static void print_instructions(const InstructionList *instructions, int depth)
 {
@@ -73,9 +74,21 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    printf("parsed %zu instructions:\n\n", instructions.count);
+    //printf("parsed %zu instructions:\n\n", instructions.count);
 
-    print_instructions(&instructions, 0);
+    //print_instructions(&instructions, 0);
+
+    VariableList variables = {0};
+
+    if (execute_instructions(&instructions, &variables) != 0)
+    {
+        free_variables(&variables);
+        free_instructions(&instructions);
+        free_clo(&program);
+        return 1;
+    }
+
+    free_variables(&variables);
 
     free_instructions(&instructions);
     free_clo(&program);
